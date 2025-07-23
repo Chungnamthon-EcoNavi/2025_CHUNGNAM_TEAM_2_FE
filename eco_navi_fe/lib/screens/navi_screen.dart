@@ -35,6 +35,7 @@ class _NaviScreenState extends State<NaviScreen> {
   Widget build(BuildContext context) {
     _initNavigationIndex(context);
 
+    print(MediaQuery.of(context).size.width);
     return Scaffold(
       body: widget.navigationShell,
       bottomNavigationBar: Container(
@@ -43,48 +44,51 @@ class _NaviScreenState extends State<NaviScreen> {
         child: Flex(
           direction: Axis.horizontal,
           children: [
-            Flexible(
-              flex: 1,
+            Expanded(
               child: InkWell(
                 onTap: () => onTapBottomNavigation(0),
                 child: Container(
                   alignment: Alignment.center,
-                  decoration: BoxDecoration(
-                    color: Colors.white,
-                    border: Border(
-                      top: BorderSide(
-                        color:
-                            currentIndex == 0
-                                ? Color(0xFFFF6F61)
-                                : Color(0x00737373),
-                        width: 3,
-                        strokeAlign: BorderSide.strokeAlignInside,
-                      ),
-                    ),
-                  ),
-                  child: Column(
-                    mainAxisAlignment: MainAxisAlignment.center,
+                  decoration: BoxDecoration(color: Colors.white),
+                  child: Stack(
+                    alignment: Alignment.topCenter,
                     children: [
-                      SvgPicture.asset(
-                        'assets/svg/heart.svg',
-                        height: 24,
-                        colorFilter: ColorFilter.mode(
-                          currentIndex == 0
-                              ? Color(0xFFFF6F61)
-                              : Color(0xFF737373),
-                          BlendMode.srcIn,
-                        ),
-                      ),
-
-                      Text(
-                        '추천',
-                        style: TextStyle(
-                          color:
+                      Column(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          SvgPicture.asset(
+                            'assets/svg/heart.svg',
+                            height: 24,
+                            colorFilter: ColorFilter.mode(
                               currentIndex == 0
                                   ? Color(0xFFFF6F61)
                                   : Color(0xFF737373),
-                          fontSize: 12,
-                          fontWeight: FontWeight.w400,
+                              BlendMode.srcIn,
+                            ),
+                          ),
+
+                          Text(
+                            '추천',
+                            style: TextStyle(
+                              color:
+                                  currentIndex == 0
+                                      ? Color(0xFFFF6F61)
+                                      : Color(0xFF737373),
+                              fontSize: 12,
+                              fontWeight: FontWeight.w400,
+                            ),
+                          ),
+                        ],
+                      ),
+                      Container(
+                        height: 3,
+                        margin: EdgeInsets.fromLTRB(5, 0, 5, 10),
+                        decoration: BoxDecoration(
+                          borderRadius: BorderRadius.circular(18),
+                          color:
+                              currentIndex == 0
+                                  ? Color(0xFFFF6F61)
+                                  : Color(0x00737373),
                         ),
                       ),
                     ],
@@ -92,48 +96,51 @@ class _NaviScreenState extends State<NaviScreen> {
                 ),
               ),
             ),
-            Flexible(
-              flex: 1,
+            Expanded(
               child: InkWell(
                 onTap: () => onTapBottomNavigation(1),
                 child: Container(
                   alignment: Alignment.center,
-                  decoration: BoxDecoration(
-                    color: Colors.white,
-                    border: Border(
-                      top: BorderSide(
-                        color:
-                            currentIndex == 1
-                                ? Color(0xFFFF6F61)
-                                : Color(0x00737373),
-                        width: 3,
-                        strokeAlign: BorderSide.strokeAlignInside,
-                      ),
-                    ),
-                  ),
-                  child: Column(
-                    mainAxisAlignment: MainAxisAlignment.center,
+                  decoration: BoxDecoration(color: Colors.white),
+                  child: Stack(
+                    alignment: Alignment.topCenter,
                     children: [
-                      SvgPicture.asset(
-                        'assets/svg/marker.svg',
-                        height: 24,
-                        colorFilter: ColorFilter.mode(
-                          currentIndex == 1
-                              ? Color(0xFFFF6F61)
-                              : Color(0xFF737373),
-                          BlendMode.srcIn,
-                        ),
-                      ),
-
-                      Text(
-                        '지도',
-                        style: TextStyle(
-                          color:
+                      Column(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          SvgPicture.asset(
+                            'assets/svg/marker.svg',
+                            height: 24,
+                            colorFilter: ColorFilter.mode(
                               currentIndex == 1
                                   ? Color(0xFFFF6F61)
                                   : Color(0xFF737373),
-                          fontSize: 12,
-                          fontWeight: FontWeight.w400,
+                              BlendMode.srcIn,
+                            ),
+                          ),
+
+                          Text(
+                            '지도',
+                            style: TextStyle(
+                              color:
+                                  currentIndex == 1
+                                      ? Color(0xFFFF6F61)
+                                      : Color(0xFF737373),
+                              fontSize: 12,
+                              fontWeight: FontWeight.w400,
+                            ),
+                          ),
+                        ],
+                      ),
+                      Container(
+                        height: 3,
+                        margin: EdgeInsets.fromLTRB(5, 0, 5, 10),
+                        decoration: BoxDecoration(
+                          borderRadius: BorderRadius.circular(18),
+                          color:
+                              currentIndex == 1
+                                  ? Color(0xFFFF6F61)
+                                  : Color(0x00737373),
                         ),
                       ),
                     ],
@@ -141,48 +148,50 @@ class _NaviScreenState extends State<NaviScreen> {
                 ),
               ),
             ),
-            Flexible(
-              flex: 1,
+            Expanded(
               child: InkWell(
                 onTap: () => onTapBottomNavigation(2),
                 child: Container(
-                  alignment: Alignment.center,
-                  decoration: BoxDecoration(
-                    color: Colors.white,
-                    border: Border(
-                      top: BorderSide(
-                        color:
-                            currentIndex == 2
-                                ? Color(0xFFFF6F61)
-                                : Color(0x00737373),
-                        width: 3,
-                        strokeAlign: BorderSide.strokeAlignInside,
-                      ),
-                    ),
-                  ),
-                  child: Column(
-                    mainAxisAlignment: MainAxisAlignment.center,
+                  decoration: BoxDecoration(color: Colors.white),
+                  child: Stack(
+                    alignment: Alignment.topCenter,
                     children: [
-                      SvgPicture.asset(
-                        'assets/svg/home.svg',
-                        height: 24,
-                        colorFilter: ColorFilter.mode(
-                          currentIndex == 2
-                              ? Color(0xFFFF6F61)
-                              : Color(0xFF737373),
-                          BlendMode.srcIn,
-                        ),
-                      ),
-
-                      Text(
-                        '홈',
-                        style: TextStyle(
-                          color:
+                      Column(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          SvgPicture.asset(
+                            'assets/svg/home.svg',
+                            height: 24,
+                            colorFilter: ColorFilter.mode(
                               currentIndex == 2
                                   ? Color(0xFFFF6F61)
                                   : Color(0xFF737373),
-                          fontSize: 12,
-                          fontWeight: FontWeight.w400,
+                              BlendMode.srcIn,
+                            ),
+                          ),
+
+                          Text(
+                            '홈',
+                            style: TextStyle(
+                              color:
+                                  currentIndex == 2
+                                      ? Color(0xFFFF6F61)
+                                      : Color(0xFF737373),
+                              fontSize: 12,
+                              fontWeight: FontWeight.w400,
+                            ),
+                          ),
+                        ],
+                      ),
+                      Container(
+                        height: 3,
+                        margin: EdgeInsets.fromLTRB(5, 0, 5, 10),
+                        decoration: BoxDecoration(
+                          borderRadius: BorderRadius.circular(18),
+                          color:
+                              currentIndex == 2
+                                  ? Color(0xFFFF6F61)
+                                  : Color(0x00737373),
                         ),
                       ),
                     ],
@@ -190,48 +199,51 @@ class _NaviScreenState extends State<NaviScreen> {
                 ),
               ),
             ),
-            Flexible(
-              flex: 1,
+            Expanded(
               child: InkWell(
                 onTap: () => onTapBottomNavigation(3),
                 child: Container(
                   alignment: Alignment.center,
-                  decoration: BoxDecoration(
-                    color: Colors.white,
-                    border: Border(
-                      top: BorderSide(
-                        color:
-                            currentIndex == 3
-                                ? Color(0xFFFF6F61)
-                                : Color(0x00737373),
-                        width: 3,
-                        strokeAlign: BorderSide.strokeAlignInside,
-                      ),
-                    ),
-                  ),
-                  child: Column(
-                    mainAxisAlignment: MainAxisAlignment.center,
+                  decoration: BoxDecoration(color: Colors.white),
+                  child: Stack(
+                    alignment: Alignment.topCenter,
                     children: [
-                      SvgPicture.asset(
-                        'assets/svg/bag.svg',
-                        height: 24,
-                        colorFilter: ColorFilter.mode(
-                          currentIndex == 3
-                              ? Color(0xFFFF6F61)
-                              : Color(0xFF737373),
-                          BlendMode.srcIn,
-                        ),
-                      ),
-
-                      Text(
-                        '상점',
-                        style: TextStyle(
-                          color:
+                      Column(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          SvgPicture.asset(
+                            'assets/svg/bag.svg',
+                            height: 24,
+                            colorFilter: ColorFilter.mode(
                               currentIndex == 3
                                   ? Color(0xFFFF6F61)
                                   : Color(0xFF737373),
-                          fontSize: 12,
-                          fontWeight: FontWeight.w400,
+                              BlendMode.srcIn,
+                            ),
+                          ),
+
+                          Text(
+                            '상점',
+                            style: TextStyle(
+                              color:
+                                  currentIndex == 3
+                                      ? Color(0xFFFF6F61)
+                                      : Color(0xFF737373),
+                              fontSize: 12,
+                              fontWeight: FontWeight.w400,
+                            ),
+                          ),
+                        ],
+                      ),
+                      Container(
+                        height: 3,
+                        margin: EdgeInsets.fromLTRB(5, 0, 5, 10),
+                        decoration: BoxDecoration(
+                          borderRadius: BorderRadius.circular(18),
+                          color:
+                              currentIndex == 3
+                                  ? Color(0xFFFF6F61)
+                                  : Color(0x00737373),
                         ),
                       ),
                     ],
@@ -239,48 +251,51 @@ class _NaviScreenState extends State<NaviScreen> {
                 ),
               ),
             ),
-            Flexible(
-              flex: 1,
+            Expanded(
               child: InkWell(
                 onTap: () => onTapBottomNavigation(4),
                 child: Container(
                   alignment: Alignment.center,
-                  decoration: BoxDecoration(
-                    color: Colors.white,
-                    border: Border(
-                      top: BorderSide(
-                        color:
-                            currentIndex == 4
-                                ? Color(0xFFFF6F61)
-                                : Color(0x00737373),
-                        width: 3,
-                        strokeAlign: BorderSide.strokeAlignInside,
-                      ),
-                    ),
-                  ),
-                  child: Column(
-                    mainAxisAlignment: MainAxisAlignment.center,
+                  decoration: BoxDecoration(color: Colors.white),
+                  child: Stack(
+                    alignment: Alignment.topCenter,
                     children: [
-                      SvgPicture.asset(
-                        'svg/profile.svg',
-                        height: 24,
-                        colorFilter: ColorFilter.mode(
-                          currentIndex == 4
-                              ? Color(0xFFFF6F61)
-                              : Color(0xFF737373),
-                          BlendMode.srcIn,
-                        ),
-                      ),
-
-                      Text(
-                        '프로필',
-                        style: TextStyle(
-                          color:
+                      Column(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          SvgPicture.asset(
+                            'svg/profile.svg',
+                            height: 24,
+                            colorFilter: ColorFilter.mode(
                               currentIndex == 4
                                   ? Color(0xFFFF6F61)
                                   : Color(0xFF737373),
-                          fontSize: 12,
-                          fontWeight: FontWeight.w400,
+                              BlendMode.srcIn,
+                            ),
+                          ),
+
+                          Text(
+                            '프로필',
+                            style: TextStyle(
+                              color:
+                                  currentIndex == 4
+                                      ? Color(0xFFFF6F61)
+                                      : Color(0xFF737373),
+                              fontSize: 12,
+                              fontWeight: FontWeight.w400,
+                            ),
+                          ),
+                        ],
+                      ),
+                      Container(
+                        height: 3,
+                        margin: EdgeInsets.fromLTRB(5, 0, 5, 10),
+                        decoration: BoxDecoration(
+                          borderRadius: BorderRadius.circular(18),
+                          color:
+                              currentIndex == 4
+                                  ? Color(0xFFFF6F61)
+                                  : Color(0x00737373),
                         ),
                       ),
                     ],

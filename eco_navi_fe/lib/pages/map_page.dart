@@ -1,3 +1,4 @@
+import 'package:eco_navi_fe/views/kakao_map_view.dart';
 import 'package:flutter/material.dart';
 
 class MapPage extends StatefulWidget {
@@ -10,6 +11,11 @@ class MapPage extends StatefulWidget {
 class _MapPageState extends State<MapPage> {
   @override
   Widget build(BuildContext context) {
-    return Container(color: Colors.white, child: Center(child: Text("map")));
+    return KakaoMapView(
+      draggable: true,
+      zoomable: true,
+      borderRadius: 0,
+      tag: 'Map',
+    );
   }
 }

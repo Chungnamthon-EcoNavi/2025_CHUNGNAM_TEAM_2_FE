@@ -35,7 +35,6 @@ class _NaviScreenState extends State<NaviScreen> {
   Widget build(BuildContext context) {
     _initNavigationIndex(context);
 
-    print(MediaQuery.of(context).size.width);
     return Scaffold(
       body: widget.navigationShell,
       bottomNavigationBar: Container(
@@ -303,83 +302,6 @@ class _NaviScreenState extends State<NaviScreen> {
                 ),
               ),
             ),
-
-            /*
-                      
-      BottomNavigationBar(
-        currentIndex: currentIndex ?? 2,
-        selectedFontSize: 10.0,
-        unselectedFontSize: 10.0,
-        selectedItemColor: Color(0xFFFF6F61),
-        unselectedItemColor: Color(0xFF737373),
-        onTap: onTapBottomNavigation,
-        items: [
-          BottomNavigationBarItem(
-            icon: SvgPicture.asset(
-              'assets/svg/heart.svg',
-              colorFilter: ColorFilter.mode(
-                currentIndex == 0 ? Color(0xFFFF6F61) : Color(0xFF737373),
-                BlendMode.srcIn,
-              ),
-            ),
-            label: '추천',
-          ),
-          BottomNavigationBarItem(
-            icon: Container(
-              decoration: BoxDecoration(
-                border: Border(
-                  top: BorderSide(
-                    color:
-                        currentIndex == 1
-                            ? Color(0xFFFF6F61)
-                            : Color(0xFF737373),
-                    width: 2,
-                  ),
-                ),
-              ),
-              child: SvgPicture.asset(
-                'assets/svg/marker.svg',
-                colorFilter: ColorFilter.mode(
-                  currentIndex == 1 ? Color(0xFFFF6F61) : Color(0xFF737373),
-                  BlendMode.srcIn,
-                ),
-              ),
-            ),
-            label: '지도',
-          ),
-          BottomNavigationBarItem(
-            icon: SvgPicture.asset(
-              'assets/svg/home.svg',
-              colorFilter: ColorFilter.mode(
-                currentIndex == 2 ? Color(0xFFFF6F61) : Color(0xFF737373),
-                BlendMode.srcIn,
-              ),
-            ),
-            label: '홈',
-          ),
-          BottomNavigationBarItem(
-            icon: SvgPicture.asset(
-              'assets/svg/bag.svg',
-              colorFilter: ColorFilter.mode(
-                currentIndex == 3 ? Color(0xFFFF6F61) : Color(0xFF737373),
-                BlendMode.srcIn,
-              ),
-            ),
-            label: '상점',
-          ),
-          BottomNavigationBarItem(
-            icon: SvgPicture.asset(
-              'assets/svg/user-profile-circle.svg',
-              colorFilter: ColorFilter.mode(
-                currentIndex == 4 ? Color(0xFFFF6F61) : Color(0xFF737373),
-                BlendMode.srcIn,
-              ),
-            ),
-            label: '프로필',
-          ),
-        ],
-      ),
-                      */
           ],
         ),
       ),

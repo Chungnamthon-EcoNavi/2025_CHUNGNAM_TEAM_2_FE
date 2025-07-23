@@ -15,7 +15,7 @@ class SplashScreen extends StatefulWidget {
 class _SplashScreenState extends State<SplashScreen> {
   @override
   void initState() {
-    Timer(Duration(milliseconds: 1000), () {
+    Timer(Duration(milliseconds: 0), () {
       GoRouter.of(context).go('/home');
     });
   }

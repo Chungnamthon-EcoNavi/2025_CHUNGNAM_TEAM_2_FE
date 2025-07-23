@@ -25,6 +25,8 @@ class KakaoMapController {
   bool getIsMarkerSelected() => _state._getIsMarkerSelected();
 
   Map<String, dynamic>? getSelectedInfo() => _state._getSelectedInfo();
+
+  void moveToCurrent() => _state._moveToCurrent();
 }
 
 class KakaoMapView extends StatefulWidget {
@@ -126,6 +128,13 @@ class _KakaoMapViewState extends State<KakaoMapView>
     } catch (e) {
       debugPrint('최종 초기화 실패: $e');
     }
+  }
+
+  void _moveToCurrent() async {
+    final pos = await Geolocator.getCurrentPosition();
+    final center = createLatLng(pos.latitude, pos.longitude);
+
+    _map.setCenter(center);
   }
 
   @override

@@ -35,10 +35,14 @@ class _NaviScreenState extends State<NaviScreen> {
   Widget build(BuildContext context) {
     _initNavigationIndex(context);
 
+    final Size size = MediaQuery.of(context).size;
+    final double heightRatio = size.height / 874;
+
     return Scaffold(
       body: widget.navigationShell,
       bottomNavigationBar: Container(
-        height: MediaQuery.of(context).size.height * 0.1,
+        height: size.height * 0.1,
+        color: Colors.white,
         alignment: Alignment.topCenter,
         child: Flex(
           direction: Axis.horizontal,
@@ -47,8 +51,8 @@ class _NaviScreenState extends State<NaviScreen> {
               child: InkWell(
                 onTap: () => onTapBottomNavigation(0),
                 child: Container(
+                  height: size.height * 0.1,
                   alignment: Alignment.center,
-                  decoration: BoxDecoration(color: Colors.white),
                   child: Stack(
                     alignment: Alignment.topCenter,
                     children: [
@@ -56,8 +60,8 @@ class _NaviScreenState extends State<NaviScreen> {
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: [
                           SvgPicture.asset(
-                            'assets/svg/heart.svg',
-                            height: 24,
+                            'svg/heart.svg',
+                            height: 24 * heightRatio,
                             colorFilter: ColorFilter.mode(
                               currentIndex == 0
                                   ? Color(0xFFFF6F61)
@@ -73,14 +77,14 @@ class _NaviScreenState extends State<NaviScreen> {
                                   currentIndex == 0
                                       ? Color(0xFFFF6F61)
                                       : Color(0xFF737373),
-                              fontSize: 12,
+                              fontSize: 12 * heightRatio,
                               fontWeight: FontWeight.w400,
                             ),
                           ),
                         ],
                       ),
                       Container(
-                        height: 3,
+                        height: 3 * heightRatio,
                         margin: EdgeInsets.fromLTRB(5, 0, 5, 10),
                         decoration: BoxDecoration(
                           borderRadius: BorderRadius.circular(18),
@@ -99,8 +103,8 @@ class _NaviScreenState extends State<NaviScreen> {
               child: InkWell(
                 onTap: () => onTapBottomNavigation(1),
                 child: Container(
+                  height: size.height * 0.1,
                   alignment: Alignment.center,
-                  decoration: BoxDecoration(color: Colors.white),
                   child: Stack(
                     alignment: Alignment.topCenter,
                     children: [
@@ -108,8 +112,8 @@ class _NaviScreenState extends State<NaviScreen> {
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: [
                           SvgPicture.asset(
-                            'assets/svg/marker.svg',
-                            height: 24,
+                            'svg/marker.svg',
+                            height: 24 * heightRatio,
                             colorFilter: ColorFilter.mode(
                               currentIndex == 1
                                   ? Color(0xFFFF6F61)
@@ -125,14 +129,14 @@ class _NaviScreenState extends State<NaviScreen> {
                                   currentIndex == 1
                                       ? Color(0xFFFF6F61)
                                       : Color(0xFF737373),
-                              fontSize: 12,
+                              fontSize: 12 * heightRatio,
                               fontWeight: FontWeight.w400,
                             ),
                           ),
                         ],
                       ),
                       Container(
-                        height: 3,
+                        height: 3 * heightRatio,
                         margin: EdgeInsets.fromLTRB(5, 0, 5, 10),
                         decoration: BoxDecoration(
                           borderRadius: BorderRadius.circular(18),
@@ -151,7 +155,8 @@ class _NaviScreenState extends State<NaviScreen> {
               child: InkWell(
                 onTap: () => onTapBottomNavigation(2),
                 child: Container(
-                  decoration: BoxDecoration(color: Colors.white),
+                  height: size.height * 0.1,
+                  alignment: Alignment.center,
                   child: Stack(
                     alignment: Alignment.topCenter,
                     children: [
@@ -159,8 +164,8 @@ class _NaviScreenState extends State<NaviScreen> {
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: [
                           SvgPicture.asset(
-                            'assets/svg/home.svg',
-                            height: 24,
+                            'svg/home.svg',
+                            height: 24 * heightRatio,
                             colorFilter: ColorFilter.mode(
                               currentIndex == 2
                                   ? Color(0xFFFF6F61)
@@ -176,14 +181,14 @@ class _NaviScreenState extends State<NaviScreen> {
                                   currentIndex == 2
                                       ? Color(0xFFFF6F61)
                                       : Color(0xFF737373),
-                              fontSize: 12,
+                              fontSize: 12 * heightRatio,
                               fontWeight: FontWeight.w400,
                             ),
                           ),
                         ],
                       ),
                       Container(
-                        height: 3,
+                        height: 3 * heightRatio,
                         margin: EdgeInsets.fromLTRB(5, 0, 5, 10),
                         decoration: BoxDecoration(
                           borderRadius: BorderRadius.circular(18),
@@ -202,8 +207,8 @@ class _NaviScreenState extends State<NaviScreen> {
               child: InkWell(
                 onTap: () => onTapBottomNavigation(3),
                 child: Container(
+                  height: size.height * 0.1,
                   alignment: Alignment.center,
-                  decoration: BoxDecoration(color: Colors.white),
                   child: Stack(
                     alignment: Alignment.topCenter,
                     children: [
@@ -211,8 +216,8 @@ class _NaviScreenState extends State<NaviScreen> {
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: [
                           SvgPicture.asset(
-                            'assets/svg/bag.svg',
-                            height: 24,
+                            'svg/bag.svg',
+                            height: 24 * heightRatio,
                             colorFilter: ColorFilter.mode(
                               currentIndex == 3
                                   ? Color(0xFFFF6F61)
@@ -228,14 +233,14 @@ class _NaviScreenState extends State<NaviScreen> {
                                   currentIndex == 3
                                       ? Color(0xFFFF6F61)
                                       : Color(0xFF737373),
-                              fontSize: 12,
+                              fontSize: 12 * heightRatio,
                               fontWeight: FontWeight.w400,
                             ),
                           ),
                         ],
                       ),
                       Container(
-                        height: 3,
+                        height: 3 * heightRatio,
                         margin: EdgeInsets.fromLTRB(5, 0, 5, 10),
                         decoration: BoxDecoration(
                           borderRadius: BorderRadius.circular(18),
@@ -254,8 +259,8 @@ class _NaviScreenState extends State<NaviScreen> {
               child: InkWell(
                 onTap: () => onTapBottomNavigation(4),
                 child: Container(
+                  height: size.height * 0.1,
                   alignment: Alignment.center,
-                  decoration: BoxDecoration(color: Colors.white),
                   child: Stack(
                     alignment: Alignment.topCenter,
                     children: [
@@ -264,7 +269,7 @@ class _NaviScreenState extends State<NaviScreen> {
                         children: [
                           SvgPicture.asset(
                             'svg/profile.svg',
-                            height: 24,
+                            height: 24 * heightRatio,
                             colorFilter: ColorFilter.mode(
                               currentIndex == 4
                                   ? Color(0xFFFF6F61)
@@ -280,14 +285,14 @@ class _NaviScreenState extends State<NaviScreen> {
                                   currentIndex == 4
                                       ? Color(0xFFFF6F61)
                                       : Color(0xFF737373),
-                              fontSize: 12,
+                              fontSize: 12 * heightRatio,
                               fontWeight: FontWeight.w400,
                             ),
                           ),
                         ],
                       ),
                       Container(
-                        height: 3,
+                        height: 3 * heightRatio,
                         margin: EdgeInsets.fromLTRB(5, 0, 5, 10),
                         decoration: BoxDecoration(
                           borderRadius: BorderRadius.circular(18),

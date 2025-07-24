@@ -23,6 +23,9 @@ class _MapPageState extends State<MapPage> {
 
   late String _textVal;
 
+  int _filterSelected = 0;
+  int _somethingSelected = 0;
+
   @override
   void initState() {
     _node.addListener(() => setState(() {}));
@@ -75,7 +78,7 @@ class _MapPageState extends State<MapPage> {
           ),
         ),
 
-        _bottomSheet(),
+        _bottomSheet(size),
       ],
     );
   }
@@ -405,19 +408,22 @@ class _MapPageState extends State<MapPage> {
     );
   }
 
-  _bottomSheet() => DraggableScrollableSheet(
-    initialChildSize: 0.05,
+  _bottomSheet(Size size) => DraggableScrollableSheet(
+    initialChildSize: 0.03,
     maxChildSize: 0.9,
-    minChildSize: 0.05,
+    minChildSize: 0.03,
     controller: sheetController,
     builder: (BuildContext context, scrollController) {
+      final width = size.height * (402 / 874);
+      final double heightRatio = size.height / 874;
+
       return Container(
         clipBehavior: Clip.hardEdge,
         decoration: const BoxDecoration(
-          color: Colors.white,
+          color: Color(0xFFF9F9F9),
           borderRadius: BorderRadius.only(
-            topLeft: Radius.circular(50),
-            topRight: Radius.circular(50),
+            topLeft: Radius.circular(15),
+            topRight: Radius.circular(15),
           ),
         ),
         child: CustomScrollView(
@@ -427,19 +433,167 @@ class _MapPageState extends State<MapPage> {
               child: Center(
                 child: Container(
                   decoration: const BoxDecoration(
-                    color: Colors.black,
+                    color: Color(0xFF949494),
                     borderRadius: BorderRadius.all(Radius.circular(10)),
                   ),
-                  height: 4,
-                  width: 80,
+                  height: 4 * heightRatio,
+                  width: 31 * heightRatio,
                   margin: const EdgeInsets.symmetric(vertical: 10),
                 ),
               ),
             ),
-            SliverList.list(
-              children: [
-                ListTile(title: Text('리스트~')),
-                ListTile(title: Text('화면 구성!')),
+
+            SliverToBoxAdapter(
+              child: Center(
+                child: Stack(
+                  children: [
+                    Container(
+                      width: 359 * heightRatio,
+                      height: 41 * heightRatio,
+                      margin: EdgeInsets.fromLTRB(0, 0, 0, 10 * heightRatio),
+                      decoration: BoxDecoration(
+                        color: Color(0xFFEFEFEF),
+                        border: Border.all(
+                          color: Color(0xFFB9B9B9),
+                          width: 1,
+                          strokeAlign: BorderSide.strokeAlignInside,
+                        ),
+                        borderRadius: BorderRadius.circular(25),
+                      ),
+                    ),
+
+                    Positioned(
+                      left: _filterSelected % 2 == 0 ? 0 : null,
+                      right: _filterSelected % 2 == 0 ? null : 0,
+                      child: InkWell(
+                        onTap: () {
+                          setState(() {
+                            _filterSelected = (_filterSelected + 1) % 2;
+                          });
+                        },
+                        child: Container(
+                          width: 185 * heightRatio,
+                          height: 41 * heightRatio,
+                          decoration: BoxDecoration(
+                            color: Color(0xFFD9D9D9),
+                            border: Border.all(
+                              color: Color(0xFFB9B9B9),
+                              width: 1,
+                              strokeAlign: BorderSide.strokeAlignInside,
+                            ),
+                            borderRadius: BorderRadius.circular(25),
+                          ),
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            crossAxisAlignment: CrossAxisAlignment.center,
+                            children: [
+                              Image.asset(
+                                'png/filter.png',
+                                height: 20 * heightRatio,
+                                width: 20 * heightRatio,
+                              ),
+                              Padding(
+                                padding: EdgeInsets.fromLTRB(
+                                  5 * heightRatio,
+                                  0,
+                                  0,
+                                  0,
+                                ),
+                                child: Text(
+                                  "필터",
+                                  style: TextStyle(
+                                    fontSize: 16 * heightRatio,
+                                    fontWeight: FontWeight.w300,
+                                    textBaseline: TextBaseline.alphabetic,
+                                  ),
+                                ),
+                              ),
+                            ],
+                          ),
+                        ),
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+            ),
+
+            SliverToBoxAdapter(
+              child: Center(
+                child: Stack(
+                  children: [
+                    Container(
+                      width: 359 * heightRatio,
+                      height: 41 * heightRatio,
+                      decoration: BoxDecoration(
+                        color: Color(0xFFEFEFEF),
+                        border: Border.all(
+                          color: Color(0xFFB9B9B9),
+                          width: 1,
+                          strokeAlign: BorderSide.strokeAlignInside,
+                        ),
+                        borderRadius: BorderRadius.circular(25),
+                      ),
+                    ),
+
+                    Positioned(
+                      //여기는 다시 구성해야 함
+                      left: _somethingSelected % 4 == 0 ? 0 : null,
+                      right: _somethingSelected % 4 == 0 ? null : 0,
+                      child: InkWell(
+                        onTap: () {
+                          setState(() {
+                            _filterSelected = _filterSelected + 1 % 4;
+                          });
+                        },
+                        child: Container(
+                          width: 185 * heightRatio,
+                          height: 41 * heightRatio,
+                          decoration: BoxDecoration(
+                            color: Color(0xFFD9D9D9),
+                            border: Border.all(
+                              color: Color(0xFFB9B9B9),
+                              width: 1,
+                              strokeAlign: BorderSide.strokeAlignInside,
+                            ),
+                            borderRadius: BorderRadius.circular(25),
+                          ),
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            crossAxisAlignment: CrossAxisAlignment.center,
+                            children: [
+                              Image.asset(
+                                'png/filter.png',
+                                height: 20 * heightRatio,
+                                width: 20 * heightRatio,
+                              ),
+                              Padding(
+                                padding: EdgeInsets.fromLTRB(
+                                  5 * heightRatio,
+                                  0,
+                                  0,
+                                  0,
+                                ),
+                                child: Text(
+                                  "필터",
+                                  style: TextStyle(
+                                    fontSize: 16 * heightRatio,
+                                    fontWeight: FontWeight.w300,
+                                    textBaseline: TextBaseline.alphabetic,
+                                  ),
+                                ),
+                              ),
+                            ],
+                          ),
+                        ),
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+            ),
+            SliverList.list(children: [
+                
               ],
             ),
           ],

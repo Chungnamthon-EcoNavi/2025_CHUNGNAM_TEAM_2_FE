@@ -3,7 +3,7 @@ import 'dart:ui_web' as ui;
 import 'package:eco_navi_fe/services/kakao_map_interop_service.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:js/js_util.dart' as js_util;
-import 'package:web/web.dart' as dom;
+import 'package:web/web.dart' as web;
 
 import 'package:flutter/material.dart';
 import 'package:geolocator/geolocator.dart';
@@ -14,8 +14,14 @@ class KakaoMapController {
   KakaoMapController._(this._state);
   final _KakaoMapViewState _state;
 
-  void addMarker(double lat, double lng, Map<String, dynamic> info) {
-    _state._addMarker(createLatLng(lat, lng), info);
+  void addMarker(
+    double lat,
+    double lng,
+    Map<String, dynamic> info,
+    double markerWidth,
+    double markerHeight,
+  ) {
+    _state._addMarker(createLatLng(lat, lng), info, markerWidth, markerHeight);
   }
 
   void clearMarkers() => _state._clearMarkers();
@@ -27,6 +33,12 @@ class KakaoMapController {
   Map<String, dynamic>? getSelectedInfo() => _state._getSelectedInfo();
 
   void moveToCurrent() => _state._moveToCurrent();
+
+  void startUserLocationTracking(String imageSrc, double width, double height) {
+    if (_state.widget.displayUserLoc) {
+      _state._startUserLocationTracking(imageSrc, width, height);
+    }
+  }
 }
 
 class KakaoMapView extends StatefulWidget {
@@ -34,6 +46,7 @@ class KakaoMapView extends StatefulWidget {
     super.key,
     required this.draggable,
     required this.zoomable,
+    required this.displayUserLoc,
     required this.borderRadius,
     required this.tag,
     this.onMapReady,
@@ -41,6 +54,7 @@ class KakaoMapView extends StatefulWidget {
   });
   final bool draggable;
   final bool zoomable;
+  final bool displayUserLoc;
   final double borderRadius;
 
   final String tag;
@@ -74,7 +88,7 @@ class _KakaoMapViewState extends State<KakaoMapView>
     // 뷰팩토리 등록
     ui.platformViewRegistry.registerViewFactory(_htmlId, (int viewId) {
       final div =
-          dom.HTMLDivElement()
+          web.HTMLDivElement()
             ..id = _htmlId
             ..style.width = '100%'
             ..style.height = '100%'
@@ -110,7 +124,7 @@ class _KakaoMapViewState extends State<KakaoMapView>
           apiKey: dotenv.get("KAKAO_JAVASCRIPTKEY"),
         );
         final pos = await Geolocator.getCurrentPosition();
-        final container = dom.document.getElementById(_htmlId)!;
+        final container = web.document.getElementById(_htmlId)!;
 
         final center = createLatLng(pos.latitude, pos.longitude);
         final opts = createMapOptions(center: center, level: 5);
@@ -153,10 +167,21 @@ class _KakaoMapViewState extends State<KakaoMapView>
     return (center.getLat(), center.getLng());
   }
 
-  void _addMarker(LatLng pos, Map<String, dynamic> info) {
+  void _addMarker(
+    LatLng pos,
+    Map<String, dynamic> info,
+    double markerWidth,
+    double markerHeight,
+  ) {
     // info 관련해서 수정필요. 이벤트도.
     final map = _map;
-    final m = createMarker(pos, map);
+    final m = createMarker(
+      pos,
+      map,
+      'assets/svg/ticket.svg',
+      markerWidth,
+      markerHeight,
+    );
 
     js_util.callMethod(m, 'setMap', [map]);
     _markers.add(m);
@@ -224,5 +249,57 @@ class _KakaoMapViewState extends State<KakaoMapView>
 
     // 리스트 초기화
     _markers.clear();
+  }
+
+  void _watchUserLocation(void Function(double lat, double lng) onUpdate) {
+    js_util.callMethod(web.window.navigator.geolocation, 'watchPosition', [
+      js_util.allowInterop((pos) {
+        final coords = js_util.getProperty(pos, 'coords');
+        final lat = js_util.getProperty(coords, 'latitude') as double;
+        final lng = js_util.getProperty(coords, 'longitude') as double;
+        onUpdate(lat, lng);
+      }),
+      js_util.allowInterop((err) {
+        print('위치 추적 실패: $err');
+      }),
+      js_util.newObject(), // 옵션 필요시 여기에 추가
+    ]);
+  }
+
+  Marker? userMarker;
+
+  void _updateUserMarker(
+    KakaoMap map,
+    double lat,
+    double lng,
+    String imageSrc,
+    double width,
+    double height,
+  ) {
+    final position = createLatLng(lat, lng);
+
+    if (userMarker == null) {
+      // 최초 생성
+      userMarker = createMarker(
+        position,
+        map,
+        imageSrc, // 사용자 위치 마커 이미지 경로
+        width, // width
+        height, // height
+      );
+    } else {
+      // 위치만 갱신
+      js_util.callMethod(userMarker!, 'setPosition', [position]);
+    }
+  }
+
+  void _startUserLocationTracking(
+    String imageSrc,
+    double width,
+    double height,
+  ) {
+    _watchUserLocation((lat, lng) {
+      _updateUserMarker(_map, lat, lng, imageSrc, width, height);
+    });
   }
 }

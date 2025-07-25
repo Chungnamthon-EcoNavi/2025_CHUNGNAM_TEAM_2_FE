@@ -55,14 +55,31 @@ class _MapPageState extends State<MapPage> {
     return Stack(
       children: [
         //map
-        KakaoMapView(
-          draggable: true,
-          zoomable: true,
-          borderRadius: 0,
-          tag: 'Map',
-          onMapReady: (controller) {
-            setState(() => _controller = controller);
-          },
+        PointerInterceptor(
+          intercepting: false,
+          child: KakaoMapView(
+            draggable: true,
+            zoomable: true,
+            displayUserLoc: true,
+            borderRadius: 0,
+            tag: 'Map',
+            onMapReady: (controller) {
+              setState(() => _controller = controller);
+              /**controller.addMarker(
+                controller.getCenter().$1,
+                controller.getCenter().$2,
+                {'id': 'test'},
+                26 * heightRatio,
+                26 * heightRatio,
+              ); */
+
+              controller.startUserLocationTracking(
+                'assets/svg/trip_origin.svg',
+                24 * heightRatio,
+                24 * heightRatio,
+              );
+            },
+          ),
         ),
 
         _customMapWidget(size),
@@ -536,7 +553,7 @@ class _MapPageState extends State<MapPage> {
                       ),
                     ),
 
-                    Positioned(
+                    /**Positioned(
                       //여기는 다시 구성해야 함
                       left: _somethingSelected % 4 == 0 ? 0 : null,
                       right: _somethingSelected % 4 == 0 ? null : 0,
@@ -587,7 +604,43 @@ class _MapPageState extends State<MapPage> {
                           ),
                         ),
                       ),
-                    ),
+                    ), 
+                    Row(
+                      children: [
+                        InkWell(
+                          onTap: () {},
+                          child: Container(
+                            width: 359 * heightRatio / 4,
+                            height: 41 * heightRatio,
+                            color: Color(0x00FFFFFF),
+                          ),
+                        ),
+                        InkWell(
+                          onTap: () {},
+                          child: Container(
+                            width: 359 * heightRatio / 4,
+                            height: 41 * heightRatio,
+                            color: Color(0x00FFFFFF),
+                          ),
+                        ),
+                        InkWell(
+                          onTap: () {},
+                          child: Container(
+                            width: 359 * heightRatio / 4,
+                            height: 41 * heightRatio,
+                            color: Color(0x00FFFFFF),
+                          ),
+                        ),
+                        InkWell(
+                          onTap: () {},
+                          child: Container(
+                            width: 359 * heightRatio / 4,
+                            height: 41 * heightRatio,
+                            color: Color(0x00FFFFFF),
+                          ),
+                        ),
+                      ],
+                    ),*/
                   ],
                 ),
               ),

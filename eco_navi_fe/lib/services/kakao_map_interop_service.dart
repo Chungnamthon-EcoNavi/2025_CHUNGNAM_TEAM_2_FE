@@ -68,8 +68,52 @@ typedef JSObject = Object;
 @staticInterop
 class Marker {}
 
-Marker createMarker(LatLng position, KakaoMap map) {
+@JS('Size')
+@staticInterop
+class ISize {}
+
+@JS('Point')
+@staticInterop
+class Point {}
+
+@JS('MarkerIamge')
+@staticInterop
+class MarkerImage {}
+
+Marker createMarker(
+  LatLng position,
+  KakaoMap map,
+  String imageSrc,
+  double imageSizeWidth,
+  double imageSizeHeight,
+) {
+  final imageSizeCtor = KakoMapInterop.jsConstructor(['kakao', 'maps', 'Size']);
+  final imageSize =
+      js_util.callConstructor(imageSizeCtor, [imageSizeWidth, imageSizeHeight])
+          as ISize;
+
+  final imageOffCtor = KakoMapInterop.jsConstructor(['kakao', 'maps', 'Point']);
+  final imageOffset =
+      js_util.callConstructor(imageOffCtor, [
+            imageSizeWidth / 2,
+            imageSizeHeight / 2,
+          ])
+          as Point;
+
+  final imageOption = js_util.newObject();
+  js_util.setProperty(imageOption, 'offset', imageOffset);
+
+  final imageCtor = KakoMapInterop.jsConstructor([
+    'kakao',
+    'maps',
+    'MarkerImage',
+  ]);
+  final image =
+      js_util.callConstructor(imageCtor, [imageSrc, imageSize, imageOption])
+          as MarkerImage;
+
   final opts = js_util.newObject();
+  js_util.setProperty(opts, 'image', image);
   js_util.setProperty(opts, 'position', position);
   js_util.setProperty(opts, 'map', map);
 
@@ -175,7 +219,8 @@ external JSAny get Kakao;
 
 class KakaoAuthLoader {
   static const _scriptId = 'kakao-auth-sdk';
-  static const _sdkSrc = 'https://t1.kakaocdn.net/kakao_js_sdk/2.6.0/kakao.min.js';
+  static const _sdkSrc =
+      'https://t1.kakaocdn.net/kakao_js_sdk/2.6.0/kakao.min.js';
   static bool _isInitialized = false;
 
   static bool _isLoaded() => js_util.hasProperty(js_util.globalThis, 'Kakao');
@@ -193,12 +238,14 @@ class KakaoAuthLoader {
 
       // 2) <script> 태그 생성 및 삽입
       final completer = Completer<void>();
-      final script = HTMLScriptElement()
-        ..id = _scriptId
-        ..type = 'text/javascript'
-        ..src = _sdkSrc
-        ..integrity = 'sha384-6MFdIr0zOira1CHQkedUqJVql0YtcZA1P0nbPrQYJXVJZUkTk/oX4U9GhUIs3/z8'
-        ..crossOrigin = 'anonymous';
+      final script =
+          HTMLScriptElement()
+            ..id = _scriptId
+            ..type = 'text/javascript'
+            ..src = _sdkSrc
+            ..integrity =
+                'sha384-6MFdIr0zOira1CHQkedUqJVql0YtcZA1P0nbPrQYJXVJZUkTk/oX4U9GhUIs3/z8'
+            ..crossOrigin = 'anonymous';
 
       // 3) 로드 완료 이벤트 핸들러
       script.onLoad.listen((_) {
@@ -214,7 +261,6 @@ class KakaoAuthLoader {
       // 5) <script> 태그 삽입
       document.head!.append(script);
       await completer.future;
-      
     } catch (e) {
       print('Kakao SDK 로드 실패: $e');
       rethrow;

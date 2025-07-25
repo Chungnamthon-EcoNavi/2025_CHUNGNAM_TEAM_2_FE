@@ -3,6 +3,7 @@ import 'dart:ui_web' as ui;
 import 'package:eco_navi_fe/services/kakao_map_interop_service.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:js/js_util.dart' as js_util;
+import 'package:location/location.dart';
 import 'package:web/web.dart' as web;
 
 import 'package:flutter/material.dart';
@@ -35,8 +36,22 @@ class KakaoMapController {
   void moveToCurrent() => _state._moveToCurrent();
 
   void startUserLocationTracking(String imageSrc, double width, double height) {
+    final Location _location = Location();
+
     if (_state.widget.displayUserLoc) {
-      _state._startUserLocationTracking(imageSrc, width, height);
+      _location.onLocationChanged.listen((LocationData currentLocation) {
+        _state.setState(() {
+          _state._currentPosition = currentLocation;
+          _state._updateUserMarker(
+            _state._map,
+            currentLocation.latitude!,
+            currentLocation.longitude!,
+            imageSrc,
+            width,
+            height,
+          );
+        });
+      });
     }
   }
 }
@@ -77,6 +92,8 @@ class _KakaoMapViewState extends State<KakaoMapView>
 
   Map<String, dynamic>? _selectedInfo;
   bool _isMarkerseleted = false;
+
+  LocationData? _currentPosition;
 
   @override
   bool get wantKeepAlive => true;
@@ -251,21 +268,6 @@ class _KakaoMapViewState extends State<KakaoMapView>
     _markers.clear();
   }
 
-  void _watchUserLocation(void Function(double lat, double lng) onUpdate) {
-    js_util.callMethod(web.window.navigator.geolocation, 'watchPosition', [
-      js_util.allowInterop((pos) {
-        final coords = js_util.getProperty(pos, 'coords');
-        final lat = js_util.getProperty(coords, 'latitude') as double;
-        final lng = js_util.getProperty(coords, 'longitude') as double;
-        onUpdate(lat, lng);
-      }),
-      js_util.allowInterop((err) {
-        print('위치 추적 실패: $err');
-      }),
-      js_util.newObject(), // 옵션 필요시 여기에 추가
-    ]);
-  }
-
   Marker? userMarker;
 
   void _updateUserMarker(
@@ -298,8 +300,13 @@ class _KakaoMapViewState extends State<KakaoMapView>
     double width,
     double height,
   ) {
-    _watchUserLocation((lat, lng) {
-      _updateUserMarker(_map, lat, lng, imageSrc, width, height);
-    });
+    _updateUserMarker(
+      _map,
+      _currentPosition!.latitude!,
+      _currentPosition!.longitude!,
+      imageSrc,
+      width,
+      height,
+    );
   }
 }

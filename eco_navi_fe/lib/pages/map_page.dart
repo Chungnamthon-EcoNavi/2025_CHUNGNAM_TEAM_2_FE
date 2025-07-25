@@ -55,17 +55,15 @@ class _MapPageState extends State<MapPage> {
     return Stack(
       children: [
         //map
-        PointerInterceptor(
-          intercepting: false,
-          child: KakaoMapView(
-            draggable: true,
-            zoomable: true,
-            displayUserLoc: true,
-            borderRadius: 0,
-            tag: 'Map',
-            onMapReady: (controller) {
-              setState(() => _controller = controller);
-              /**controller.addMarker(
+        KakaoMapView(
+          draggable: true,
+          zoomable: true,
+          displayUserLoc: true,
+          borderRadius: 0,
+          tag: 'Map',
+          onMapReady: (controller) {
+            setState(() => _controller = controller);
+            /**controller.addMarker(
                 controller.getCenter().$1,
                 controller.getCenter().$2,
                 {'id': 'test'},
@@ -73,13 +71,12 @@ class _MapPageState extends State<MapPage> {
                 26 * heightRatio,
               ); */
 
-              controller.startUserLocationTracking(
-                'assets/svg/trip_origin.svg',
-                24 * heightRatio,
-                24 * heightRatio,
-              );
-            },
-          ),
+            controller.startUserLocationTracking(
+              'assets/svg/trip_origin.svg',
+              24 * heightRatio,
+              24 * heightRatio,
+            );
+          },
         ),
 
         _customMapWidget(size),

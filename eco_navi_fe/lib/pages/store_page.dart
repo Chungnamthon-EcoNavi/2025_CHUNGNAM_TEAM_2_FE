@@ -32,11 +32,18 @@ class _StorePageState extends State<StorePage> {
         crossAxisAlignment: CrossAxisAlignment.center,
         children: [
           Container(
-            height: 70 * heightRatio,
-            width: 360 * heightRatio,
+            height: 30 * heightRatio,
+            width: width,
+            margin: EdgeInsets.fromLTRB(
+              15 * heightRatio,
+              40 * heightRatio,
+              15 * heightRatio,
+              0 * heightRatio,
+            ),
             alignment: Alignment.bottomCenter,
             child: Row(
               mainAxisAlignment: MainAxisAlignment.start,
+              crossAxisAlignment: CrossAxisAlignment.end,
               children: [
                 SvgPicture.asset(
                   'svg/eco_navi_text_logo.svg',

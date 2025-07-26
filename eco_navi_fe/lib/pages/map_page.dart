@@ -1,7 +1,6 @@
 import 'package:eco_navi_fe/views/kakao_map_view.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
-import 'package:pointer_interceptor/pointer_interceptor.dart';
 
 class MapPage extends StatefulWidget {
   const MapPage({super.key});
@@ -24,7 +23,7 @@ class _MapPageState extends State<MapPage> {
   late String _textVal;
 
   int _filterSelected = 0;
-  int _somethingSelected = 0;
+  int _filterIndex = 0;
 
   @override
   void initState() {

@@ -5,19 +5,20 @@ import 'package:eco_navi_fe/pages/map_page.dart';
 import 'package:eco_navi_fe/pages/profile_page.dart';
 import 'package:eco_navi_fe/pages/store_page.dart';
 import 'package:eco_navi_fe/pages/suggestion_page.dart';
+import 'package:eco_navi_fe/pages/image_search_page.dart';
+
 import 'package:eco_navi_fe/screens/navi_screen.dart';
 import 'package:eco_navi_fe/screens/splash_screen.dart';
 import 'package:flutter/foundation.dart';
 
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
-import 'package:google_fonts/google_fonts.dart';
 
 class RootScreen extends StatelessWidget {
   RootScreen({super.key});
 
   final GlobalKey<NavigatorState> _rootNavKey = GlobalKey<NavigatorState>();
-  final GlobalKey<NavigatorState> _shellNavKey = GlobalKey<NavigatorState>();
+  //final GlobalKey<NavigatorState> _shellNavKey = GlobalKey<NavigatorState>();
 
   GoRouter router() => GoRouter(
     initialLocation: "/",
@@ -61,6 +62,14 @@ class RootScreen extends StatelessWidget {
                 pageBuilder:
                     (context, state) =>
                         const NoTransitionPage(child: HomePage()),
+                routes: [
+                  GoRoute(
+                    path: 'image_search',
+                    pageBuilder:
+                        (context, state) =>
+                            const NoTransitionPage(child: ImageSearchPage()),
+                  ),
+                ],
               ),
             ],
           ),

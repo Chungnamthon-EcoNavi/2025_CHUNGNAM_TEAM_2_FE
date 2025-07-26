@@ -17,7 +17,7 @@ const Map<int, String> NAV_INDEX_ENDPOINT_MAPPER = {
   2: '/home',
   3: '/store',
   4: '/profile',
-};
+}; //page_routing_table.json을 생성하긴했지만, 효율적인 방법인지는 잘 모르겠어서 보류.
 
 class _NaviScreenState extends State<NaviScreen> {
   int currentIndex = 2;

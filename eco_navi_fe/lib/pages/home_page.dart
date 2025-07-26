@@ -2,7 +2,6 @@ import 'package:eco_navi_fe/views/kakao_map_view.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:go_router/go_router.dart';
-import 'package:pointer_interceptor/pointer_interceptor.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({super.key});
@@ -35,11 +34,18 @@ class _HomePageState extends State<HomePage> {
         crossAxisAlignment: CrossAxisAlignment.center,
         children: [
           Container(
-            height: 70 * heightRatio,
-            width: 360 * heightRatio,
+            height: 30 * heightRatio,
+            width: width,
+            margin: EdgeInsets.fromLTRB(
+              15 * heightRatio,
+              40 * heightRatio,
+              15 * heightRatio,
+              0 * heightRatio,
+            ),
             alignment: Alignment.bottomCenter,
             child: Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              crossAxisAlignment: CrossAxisAlignment.end,
               children: [
                 SvgPicture.asset(
                   'svg/eco_navi_text_logo.svg',
@@ -59,19 +65,34 @@ class _HomePageState extends State<HomePage> {
           ),
 
           Container(
-            margin: EdgeInsets.fromLTRB(0, 50 * heightRatio, 0, 0),
+            margin: EdgeInsets.fromLTRB(
+              0 * heightRatio,
+              50 * heightRatio,
+              0 * heightRatio,
+              0 * heightRatio,
+            ),
             alignment: Alignment.topCenter,
             child: Stack(
               alignment: Alignment.center,
               children: [
                 Container(
                   height: 255 * heightRatio,
-                  width: 360 * heightRatio,
+                  width: width,
+                  decoration: BoxDecoration(
+                    color: Color(0xFFD9D9D9),
+                    borderRadius: BorderRadius.circular(4),
+                  ),
+                  margin: EdgeInsets.fromLTRB(
+                    15 * heightRatio,
+                    0 * heightRatio,
+                    15 * heightRatio,
+                    0 * heightRatio,
+                  ),
                   child: KakaoMapView(
                     draggable: false,
                     zoomable: false,
                     displayUserLoc: false,
-                    borderRadius: 0,
+                    borderRadius: 4,
                     tag: 'home_map',
                   ),
                 ),
@@ -81,16 +102,30 @@ class _HomePageState extends State<HomePage> {
                   },
                   child: Container(
                     height: 255 * heightRatio,
-                    width: 360 * heightRatio,
+                    width: width,
+                    margin: EdgeInsets.fromLTRB(
+                      15 * heightRatio,
+                      0 * heightRatio,
+                      15 * heightRatio,
+                      0 * heightRatio,
+                    ),
+                    decoration: BoxDecoration(
+                      borderRadius: BorderRadius.circular(4),
+                    ),
                   ),
                 ),
               ],
             ),
           ),
           Container(
-            margin: EdgeInsets.fromLTRB(0, 10, 0, 0),
             height: 66 * heightRatio,
-            width: 360 * heightRatio,
+            width: width,
+            margin: EdgeInsets.fromLTRB(
+              15 * heightRatio,
+              10 * heightRatio,
+              15 * heightRatio,
+              0 * heightRatio,
+            ),
             decoration: BoxDecoration(
               color: Color(0xFFD9D9D9),
               borderRadius: BorderRadius.circular(9),
@@ -98,12 +133,27 @@ class _HomePageState extends State<HomePage> {
           ),
 
           Container(
-            margin: EdgeInsets.fromLTRB(0, 30, 0, 30),
-            height: 70 * heightRatio,
-            width: 360 * heightRatio,
+            padding: EdgeInsets.fromLTRB(
+              0 * heightRatio,
+              10 * heightRatio,
+              0 * heightRatio,
+              10 * heightRatio,
+            ),
+            height: 90 * heightRatio,
+            width: width,
+            margin: EdgeInsets.fromLTRB(
+              15 * heightRatio,
+              20 * heightRatio,
+              15 * heightRatio,
+              20 * heightRatio,
+            ),
             decoration: BoxDecoration(
               color: Color(0xFFFFFFFF),
               borderRadius: BorderRadius.circular(9),
+              border: Border(
+                top: BorderSide(color: Color(0xFFE9E9E9)),
+                bottom: BorderSide(color: Color(0xFFE9E9E9)),
+              ),
             ),
             child: Flex(
               direction: Axis.horizontal,
@@ -191,7 +241,7 @@ class _HomePageState extends State<HomePage> {
                   flex: 1,
                   child: InkWell(
                     onTap: () {
-                      GoRouter.of(context).go('/search');
+                      GoRouter.of(context).go('/home/image_search');
                     },
                     child: Column(
                       children: [
@@ -202,7 +252,7 @@ class _HomePageState extends State<HomePage> {
                         ),
                         Container(height: 10 * heightRatio),
                         Text(
-                          '검색',
+                          '이미지 검색',
                           style: TextStyle(
                             fontSize: 12 * heightRatio,
                             fontWeight: FontWeight.w500,
@@ -210,6 +260,31 @@ class _HomePageState extends State<HomePage> {
                         ),
                       ],
                     ),
+                  ),
+                ),
+              ],
+            ),
+          ),
+
+          Expanded(
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Container(
+                  height: 158 * heightRatio,
+                  width: 169 * heightRatio,
+                  decoration: BoxDecoration(
+                    color: Color(0xFFD9D9D9),
+                    borderRadius: BorderRadius.circular(4),
+                  ),
+                ),
+                Container(
+                  height: 158 * heightRatio,
+                  width: 169 * heightRatio,
+                  decoration: BoxDecoration(
+                    color: Color(0xFFD9D9D9),
+                    borderRadius: BorderRadius.circular(4),
                   ),
                 ),
               ],

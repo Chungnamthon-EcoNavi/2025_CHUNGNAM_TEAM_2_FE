@@ -92,7 +92,7 @@ class _MapPageState extends State<MapPage> {
           ),
         ),
 
-        _bottomSheet(size),
+        _mapBottomSheet(size),
       ],
     );
   }
@@ -363,7 +363,8 @@ class _MapPageState extends State<MapPage> {
       children: [
         InkWell(
           onTap: () {
-            _controller?.moveToCurrent();
+            print("click1");
+            //_controller?.moveToCurrent();
           },
           child: Container(
             height: 42 * heightRatio,
@@ -422,7 +423,7 @@ class _MapPageState extends State<MapPage> {
     );
   }
 
-  _bottomSheet(Size size) => DraggableScrollableSheet(
+  _mapBottomSheet(Size size) => DraggableScrollableSheet(
     initialChildSize: 0.03,
     maxChildSize: 0.9,
     minChildSize: 0.03,

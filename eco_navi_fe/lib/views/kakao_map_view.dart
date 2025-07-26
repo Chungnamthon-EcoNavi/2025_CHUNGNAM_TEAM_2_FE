@@ -3,7 +3,6 @@ import 'dart:ui_web' as ui;
 import 'package:eco_navi_fe/services/kakao_map_interop_service.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:js/js_util.dart' as js_util;
-import 'package:location/location.dart';
 import 'package:web/web.dart' as web;
 
 import 'package:flutter/material.dart';
@@ -36,23 +35,7 @@ class KakaoMapController {
   void moveToCurrent() => _state._moveToCurrent();
 
   void startUserLocationTracking(String imageSrc, double width, double height) {
-    final Location _location = Location();
-
-    if (_state.widget.displayUserLoc) {
-      _location.onLocationChanged.listen((LocationData currentLocation) {
-        _state.setState(() {
-          _state._currentPosition = currentLocation;
-          _state._updateUserMarker(
-            _state._map,
-            currentLocation.latitude!,
-            currentLocation.longitude!,
-            imageSrc,
-            width,
-            height,
-          );
-        });
-      });
-    }
+    _state._startUserLocationTracking(imageSrc, width, height);
   }
 }
 
@@ -93,7 +76,7 @@ class _KakaoMapViewState extends State<KakaoMapView>
   Map<String, dynamic>? _selectedInfo;
   bool _isMarkerseleted = false;
 
-  LocationData? _currentPosition;
+  late Stream<Position> cpos;
 
   @override
   bool get wantKeepAlive => true;
@@ -117,6 +100,8 @@ class _KakaoMapViewState extends State<KakaoMapView>
       apiKey: dotenv.get("KAKAO_JAVASCRIPTKEY"),
       onReady: _initMap,
     );
+
+    cpos = Geolocator.getPositionStream();
   }
 
   Future<void> ensureKakaoLoaded() async {
@@ -195,7 +180,7 @@ class _KakaoMapViewState extends State<KakaoMapView>
     final m = createMarker(
       pos,
       map,
-      'assets/svg/ticket.svg',
+      'svg/ticket.svg',
       markerWidth,
       markerHeight,
     );
@@ -300,13 +285,15 @@ class _KakaoMapViewState extends State<KakaoMapView>
     double width,
     double height,
   ) {
-    _updateUserMarker(
-      _map,
-      _currentPosition!.latitude!,
-      _currentPosition!.longitude!,
-      imageSrc,
-      width,
-      height,
-    );
+    cpos.listen((Position pos) {
+      _updateUserMarker(
+        _map,
+        pos.latitude,
+        pos.longitude,
+        imageSrc,
+        width,
+        height,
+      );
+    });
   }
 }

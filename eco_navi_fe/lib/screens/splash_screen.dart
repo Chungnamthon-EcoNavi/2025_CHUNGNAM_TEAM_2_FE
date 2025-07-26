@@ -29,7 +29,7 @@ class _SplashScreenState extends State<SplashScreen> {
         children: [
           Padding(
             padding: EdgeInsets.all(10),
-            child: SvgPicture.asset('assets/svg/eco_navi_logo.svg'),
+            child: SvgPicture.asset('svg/eco_navi_logo.svg'),
           ),
         ],
       ),

@@ -102,7 +102,7 @@ class _ProfilePageState extends State<ProfilePage> {
                           children: [
                             InkWell(
                               onTap: () {
-                                GoRouter.of(context).push('/profile/setting');
+                                GoRouter.of(context).go('/setting');
                               },
                               child: Container(
                                 height: 24 * heightRatio,

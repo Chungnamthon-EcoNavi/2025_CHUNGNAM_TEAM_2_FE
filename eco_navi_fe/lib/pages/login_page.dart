@@ -1,5 +1,6 @@
 import 'dart:convert';
 
+import 'package:eco_navi_fe/services/econavi_auth_service.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_svg/svg.dart';
@@ -270,7 +271,22 @@ class _LoginPageState extends State<LoginPage> {
           ),
 
           InkWell(
-            onTap: () {},
+            onTap: () {
+              final isEmailValidate = _formKeyID.currentState!.validate();
+              final isPwInput = _textValPW.isNotEmpty;
+
+              if (isPwInput && isEmailValidate) {
+                try {
+                  EconaviAuthService.logIn(
+                    username: _textValID,
+                    password: _textValPW,
+                  );
+                } catch (e) {
+                  print(e);
+                }
+                GoRouter.of(context).go('/home');
+              }
+            },
             child: Container(
               margin: EdgeInsets.fromLTRB(
                 25 * heightRatio,

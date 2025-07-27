@@ -3,6 +3,7 @@ import 'dart:ui';
 import 'package:eco_navi_fe/pages/home_page.dart';
 import 'package:eco_navi_fe/pages/login_page.dart';
 import 'package:eco_navi_fe/pages/map_page.dart';
+import 'package:eco_navi_fe/pages/profile_modify_page.dart';
 import 'package:eco_navi_fe/pages/profile_page.dart';
 import 'package:eco_navi_fe/pages/setting_page.dart';
 import 'package:eco_navi_fe/pages/sign_up_page.dart';
@@ -33,8 +34,16 @@ class RootScreen extends StatelessWidget {
         builder: (context, state) => const SplashScreen(),
       ),
       GoRoute(
-        path: '/profile/setting',
+        path: '/setting',
         builder: (context, state) => const SettingPage(),
+        routes: [
+          GoRoute(
+            path: 'modify',
+            pageBuilder:
+                (context, state) =>
+                    const NoTransitionPage(child: ProfileModifyPage()),
+          ),
+        ],
       ),
       GoRoute(path: '/login', builder: (context, state) => const LoginPage()),
       GoRoute(path: '/signup', builder: (context, state) => const SignUpPage()),

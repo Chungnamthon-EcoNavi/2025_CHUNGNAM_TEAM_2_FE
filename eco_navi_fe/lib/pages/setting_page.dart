@@ -83,7 +83,7 @@ class _SettingPageState extends State<SettingPage> {
                           children: [
                             InkWell(
                               onTap: () {
-                                GoRouter.of(context).pop(); //go('/profile');
+                                GoRouter.of(context).go('/profile');
                               },
                               child: Container(
                                 height: 35 * heightRatio,
@@ -156,7 +156,9 @@ class _SettingPageState extends State<SettingPage> {
                       Column(
                         children: [
                           InkWell(
-                            onTap: () {},
+                            onTap: () {
+                              GoRouter.of(context).go('/setting/modify');
+                            },
                             child: Container(
                               height: 48 * heightRatio,
                               width: width,

@@ -1,5 +1,6 @@
 import 'dart:convert';
 
+import 'package:eco_navi_fe/services/econavi_auth_service.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_svg/svg.dart';
@@ -357,7 +358,17 @@ class _SignUpPageState extends State<SignUpPage> {
               final isPwInput = _textValPW.isNotEmpty;
 
               if (isNmInput && isPwInput && isEmailValidate) {
-                //sign up 전송
+                try {
+                  EconaviAuthService.signUp(
+                    username: _textValID,
+                    name: _textValNM,
+                    role: "USER",
+                    password: _textValPW,
+                  );
+                } catch (e) {
+                  print(e);
+                }
+
                 GoRouter.of(context).go('/home');
               }
             },

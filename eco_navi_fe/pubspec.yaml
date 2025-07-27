@@ -12,11 +12,15 @@ dependencies:
     sdk: flutter
   flutter_dotenv: ^5.2.1
   flutter_riverpod: ^2.6.1
+  flutter_secure_storage: ^4.2.1
   flutter_svg: ^2.2.0
   geolocator: ^14.0.2
   go_router: ^16.0.0
   google_fonts: ^6.2.1
+  http: ^1.4.0
+  image_picker: ^1.1.2
   kakao_flutter_sdk_common: ^1.9.7+3
+  shared_preferences: ^2.3.2
   kakao_flutter_sdk_user: ^1.9.7+3
   pointer_interceptor: ^0.10.1+2
   riverpod: ^2.6.1
@@ -54,6 +58,7 @@ flutter:
           weight: 900
   
   assets:
+    - .env
     - assets/config/
     - assets/svg/
     - assets/png/

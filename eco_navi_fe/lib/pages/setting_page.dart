@@ -1,0 +1,130 @@
+import 'dart:convert';
+
+import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
+import 'package:flutter_svg/svg.dart';
+import 'package:go_router/go_router.dart';
+
+class SettingPage extends StatefulWidget {
+  const SettingPage({super.key});
+
+  @override
+  State<SettingPage> createState() => _SettingPageState();
+}
+
+class _SettingPageState extends State<SettingPage> {
+  late final String user;
+  late final int ecoPoint;
+  //Map<String, dynamic>? membershipData;
+  bool isLoading = true;
+
+  Future<void> loadSomething() async {
+    final String jsonString = await rootBundle.loadString(
+      'config/membershp_table.json',
+    );
+    final jsonData = await json.decode(jsonString);
+
+    try {
+      setState(() {
+        isLoading = false;
+      });
+      return jsonData["0"];
+    } catch (e) {
+      print('Error loading membership data: $e');
+      setState(() {
+        isLoading = false;
+      });
+    }
+  }
+
+  @override
+  void initState() {
+    super.initState();
+  }
+
+  @override
+  void dispose() {
+    super.dispose();
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    final Size size = MediaQuery.of(context).size;
+    final width = size.height * (402 / 874);
+    final double heightRatio = size.height / 874;
+
+    return Container(
+      color: Colors.white,
+      child: FutureBuilder(
+        future: loadSomething(),
+        builder: (context, snapshot) {
+          if (snapshot.hasData) {
+            return Column(
+              mainAxisAlignment: MainAxisAlignment.start,
+              crossAxisAlignment: CrossAxisAlignment.center,
+              children: [
+                Container(
+                  height: 92 * heightRatio,
+                  width: width,
+                  margin: EdgeInsets.fromLTRB(
+                    15 * heightRatio,
+                    43 * heightRatio,
+                    15 * heightRatio,
+                    18 * heightRatio,
+                  ),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      Container(
+                        height: 70 * heightRatio,
+                        width: 70 * heightRatio,
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.start,
+                          children: [
+                            InkWell(
+                              onTap: () {
+                                GoRouter.of(context).pop();
+                              },
+                              child: Container(
+                                height: 35 * heightRatio,
+                                width: 35 * heightRatio,
+                                child: SvgPicture.asset(
+                                  'svg/chevron-left.svg',
+                                  height: 33 * heightRatio,
+                                  width: 33 * heightRatio,
+                                  colorFilter: ColorFilter.mode(
+                                    Color(0xFF000000),
+                                    BlendMode.srcIn,
+                                  ),
+                                ),
+                              ),
+                            ),
+                          ],
+                        ),
+                      ),
+                      Center(
+                        child: Text(
+                          '설정',
+                          style: TextStyle(
+                            fontSize: 20 * heightRatio,
+                            fontWeight: FontWeight.w400,
+                          ),
+                        ),
+                      ),
+                      Container(
+                        height: 70 * heightRatio,
+                        width: 70 * heightRatio,
+                      ),
+                    ],
+                  ),
+                ),
+              ],
+            );
+          } else {
+            return Container();
+          }
+        },
+      ),
+    );
+  }
+}

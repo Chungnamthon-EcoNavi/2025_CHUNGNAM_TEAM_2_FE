@@ -3,6 +3,7 @@ import 'dart:ui';
 import 'package:eco_navi_fe/pages/home_page.dart';
 import 'package:eco_navi_fe/pages/map_page.dart';
 import 'package:eco_navi_fe/pages/profile_page.dart';
+import 'package:eco_navi_fe/pages/setting_page.dart';
 import 'package:eco_navi_fe/pages/store_page.dart';
 import 'package:eco_navi_fe/pages/suggestion_page.dart';
 import 'package:eco_navi_fe/pages/image_search_page.dart';
@@ -90,6 +91,14 @@ class RootScreen extends StatelessWidget {
                 pageBuilder:
                     (context, state) =>
                         const NoTransitionPage(child: ProfilePage()),
+                routes: [
+                  GoRoute(
+                    path: 'setting',
+                    pageBuilder:
+                        (context, state) =>
+                            const NoTransitionPage(child: SettingPage()),
+                  ),
+                ],
               ),
             ],
           ),
@@ -124,7 +133,7 @@ class RootScreen extends StatelessWidget {
             builder: (BuildContext context, BoxConstraints constraints) {
               double height = size.height, width = size.width;
               if (kIsWeb) {
-                height = size.height - 20;
+                height = size.height;
                 width = height * (402 / 874);
               }
               return Center(

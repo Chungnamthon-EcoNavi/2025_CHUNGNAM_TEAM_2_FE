@@ -1,7 +1,9 @@
 {
     "0": {
         "class" : "Red", 
-        "color": "0xFFFF6F61", 
-        "content": "상점 5%% 쿠폰 / 3%% 적립중"
+        "primary_color": "FF6F61", 
+        "background_color": "FFDAD7", 
+        "border_color": "FF8276", 
+        "content": "상점 5% 쿠폰 / 3% 적립중"
         }
 }

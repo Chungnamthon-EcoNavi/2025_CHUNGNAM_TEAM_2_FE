@@ -3,6 +3,7 @@ import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:go_router/go_router.dart';
 
 class ProfilePage extends StatefulWidget {
   const ProfilePage({super.key});
@@ -14,14 +15,27 @@ class ProfilePage extends StatefulWidget {
 class _ProfilePageState extends State<ProfilePage> {
   late final String user;
   late final int ecoPoint;
-  late final Future membership;
+  //Map<String, dynamic>? membershipData;
+  bool isLoading = true;
 
-  static Future loadJson(String classIdx) async {
+  Future<Map<String, dynamic>?> loadJson(String classIdx) async {
     final String jsonString = await rootBundle.loadString(
       'config/membershp_table.json',
     );
-    final data = await json.decode(jsonString);
-    return data[classIdx];
+    final jsonData = await json.decode(jsonString);
+
+    try {
+      setState(() {
+        isLoading = false;
+      });
+
+      return jsonData[classIdx];
+    } catch (e) {
+      print('Error loading membership data: $e');
+      setState(() {
+        isLoading = false;
+      });
+    }
   }
 
   @override
@@ -29,7 +43,7 @@ class _ProfilePageState extends State<ProfilePage> {
     user = 'User'; //User 이름 받아오기
     ecoPoint = 100; //User의 EcoPoint 받아오기
 
-    membership = loadJson("0"); //User의 membership 인덱스 받아와서 키검색
+    loadJson("0"); //User의 membership 인덱스 받아와서 키검색
 
     super.initState();
   }
@@ -48,7 +62,7 @@ class _ProfilePageState extends State<ProfilePage> {
     return Container(
       color: Colors.white,
       child: FutureBuilder(
-        future: membership,
+        future: loadJson("0"),
         builder: (context, snapshot) {
           if (snapshot.hasData) {
             return Column(
@@ -87,7 +101,9 @@ class _ProfilePageState extends State<ProfilePage> {
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: [
                             InkWell(
-                              onTap: () {},
+                              onTap: () {
+                                GoRouter.of(context).go('/profile/setting');
+                              },
                               child: Container(
                                 height: 24 * heightRatio,
                                 width: 24 * heightRatio,
@@ -158,11 +174,15 @@ class _ProfilePageState extends State<ProfilePage> {
                       ),
                       Container(
                         child: Text(
-                          "${snapshot.data["class"]} 등급 >",
+                          "${snapshot.data?['class']} 등급 >",
                           style: TextStyle(
                             fontSize: 12,
                             fontWeight: FontWeight.w300,
-                            color: Color(int.parse(snapshot.data["color"])),
+                            color: Color(
+                              int.parse(
+                                "0xFF${snapshot.data?["primary_color"]}",
+                              ),
+                            ),
                           ),
                         ),
                       ),
@@ -179,19 +199,325 @@ class _ProfilePageState extends State<ProfilePage> {
                     15 * heightRatio,
                     8 * heightRatio,
                   ),
+                  padding: EdgeInsets.fromLTRB(
+                    20 * heightRatio,
+                    0 * heightRatio,
+                    20 * heightRatio,
+                    0 * heightRatio,
+                  ),
                   decoration: BoxDecoration(
-                    color: Color(0x4DFFDAD7),
-                    border: Border.all(color: Color(0xB3FF8276), width: 0.5),
+                    color: Color(
+                      int.parse(
+                        "0x4D${snapshot.data?["background_color"]}",
+                      ) /*0x4DFFDAD7*/,
+                    ),
+                    border: Border.all(
+                      color: Color(
+                        int.parse(
+                          "0xB3${snapshot.data?["border_color"]}",
+                        ) /*0xB3FF8276*/,
+                      ),
+                      width: 0.5,
+                    ),
                     borderRadius: BorderRadius.circular(12),
                   ),
                   child: Row(
                     children: [
                       Text(
-                        snapshot.data['calss'],
+                        "${snapshot.data?['class']}\t\t\t|\t\t\t",
                         style: TextStyle(
-                          color: Color(int.parse(snapshot.data["color"])),
-                          fontSize: 14,
+                          color: Color(
+                            int.parse("0xFF${snapshot.data?["primary_color"]}"),
+                          ),
+                          fontSize: 14 * heightRatio,
                           fontWeight: FontWeight.w800,
+                        ),
+                      ),
+
+                      Text(
+                        "${snapshot.data?['content']} >",
+                        style: TextStyle(
+                          fontSize: 12 * heightRatio,
+                          fontWeight: FontWeight.w300,
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+
+                Container(
+                  height: 145 * heightRatio,
+                  width: width,
+                  margin: EdgeInsets.fromLTRB(
+                    15 * heightRatio,
+                    8 * heightRatio,
+                    15 * heightRatio,
+                    8 * heightRatio,
+                  ),
+                  padding: EdgeInsets.fromLTRB(
+                    15 * heightRatio,
+                    15 * heightRatio,
+                    15 * heightRatio,
+                    15 * heightRatio,
+                  ),
+                  decoration: BoxDecoration(
+                    color: Color(0xFFD9D9D9),
+                    borderRadius: BorderRadius.circular(6),
+                  ),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Column(
+                        mainAxisAlignment: MainAxisAlignment.start,
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Text(
+                            "보유 포인트",
+                            style: TextStyle(
+                              fontSize: 12 * heightRatio,
+                              fontWeight: FontWeight.w500,
+                            ),
+                          ),
+                          Text(
+                            "${ecoPoint}P",
+                            style: TextStyle(
+                              fontSize: 32 * heightRatio,
+                              fontWeight: FontWeight.w600,
+                            ),
+                          ),
+                        ],
+                      ),
+
+                      Column(
+                        mainAxisAlignment: MainAxisAlignment.start,
+                        crossAxisAlignment: CrossAxisAlignment.end,
+                        children: [
+                          InkWell(
+                            onTap: () {},
+                            child: Container(
+                              height: 27 * heightRatio,
+                              width: 40 * heightRatio,
+                              decoration: BoxDecoration(
+                                color: Color(0xFFFFFFFF),
+                                borderRadius: BorderRadius.circular(5),
+                              ),
+                              alignment: Alignment.center,
+                              child: Text(
+                                "수정",
+                                style: TextStyle(
+                                  fontSize: 12 * heightRatio,
+                                  fontWeight: FontWeight.w500,
+                                ),
+                              ),
+                            ),
+                          ),
+                        ],
+                      ),
+                    ],
+                  ),
+                ),
+
+                Container(
+                  height: 108 * heightRatio,
+                  width: width,
+                  margin: EdgeInsets.fromLTRB(
+                    15 * heightRatio,
+                    8 * heightRatio,
+                    15 * heightRatio,
+                    8 * heightRatio,
+                  ),
+                  padding: EdgeInsets.fromLTRB(
+                    15 * heightRatio,
+                    15 * heightRatio,
+                    15 * heightRatio,
+                    15 * heightRatio,
+                  ),
+                  decoration: BoxDecoration(
+                    color: Color(0xFFD9D9D9),
+                    borderRadius: BorderRadius.circular(6),
+                  ),
+                  child: Flex(
+                    direction: Axis.horizontal,
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      Flexible(
+                        flex: 1,
+                        child: InkWell(
+                          onTap: () {
+                            //GoRouter.of(context).go('/map');
+                          },
+                          child: Column(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            crossAxisAlignment: CrossAxisAlignment.center,
+                            children: [
+                              SvgPicture.asset(
+                                'svg/tmp_box.svg',
+                                height: 26 * heightRatio,
+                                width: 26 * heightRatio,
+                              ),
+                              Container(height: 10 * heightRatio),
+                              Text(
+                                '관람 내역',
+                                style: TextStyle(
+                                  fontSize: 11 * heightRatio,
+                                  fontWeight: FontWeight.w300,
+                                ),
+                              ),
+                              Container(height: 3 * heightRatio),
+                              Text(
+                                '00',
+                                style: TextStyle(
+                                  fontSize: 11 * heightRatio,
+                                  fontWeight: FontWeight.w600,
+                                ),
+                              ),
+                            ],
+                          ),
+                        ),
+                      ),
+
+                      Flexible(
+                        flex: 1,
+                        child: InkWell(
+                          onTap: () {
+                            //GoRouter.of(context).go('/map');
+                          },
+                          child: Column(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            crossAxisAlignment: CrossAxisAlignment.center,
+                            children: [
+                              SvgPicture.asset(
+                                'svg/tmp_box.svg',
+                                height: 26 * heightRatio,
+                                width: 26 * heightRatio,
+                              ),
+                              Container(height: 10 * heightRatio),
+                              Text(
+                                '리뷰',
+                                style: TextStyle(
+                                  fontSize: 11 * heightRatio,
+                                  fontWeight: FontWeight.w300,
+                                ),
+                              ),
+                              Container(height: 3 * heightRatio),
+                              Text(
+                                '00',
+                                style: TextStyle(
+                                  fontSize: 11 * heightRatio,
+                                  fontWeight: FontWeight.w600,
+                                ),
+                              ),
+                            ],
+                          ),
+                        ),
+                      ),
+
+                      Flexible(
+                        flex: 1,
+                        child: InkWell(
+                          onTap: () {
+                            //GoRouter.of(context).go('/map');
+                          },
+                          child: Column(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            crossAxisAlignment: CrossAxisAlignment.center,
+                            children: [
+                              SvgPicture.asset(
+                                'svg/tmp_box.svg',
+                                height: 26 * heightRatio,
+                                width: 26 * heightRatio,
+                              ),
+                              Container(height: 10 * heightRatio),
+                              Text(
+                                '문의',
+                                style: TextStyle(
+                                  fontSize: 11 * heightRatio,
+                                  fontWeight: FontWeight.w300,
+                                ),
+                              ),
+                              Container(height: 3 * heightRatio),
+                              Text(
+                                '00',
+                                style: TextStyle(
+                                  fontSize: 11 * heightRatio,
+                                  fontWeight: FontWeight.w600,
+                                ),
+                              ),
+                            ],
+                          ),
+                        ),
+                      ),
+
+                      Flexible(
+                        flex: 1,
+                        child: InkWell(
+                          onTap: () {
+                            //GoRouter.of(context).go('/map');
+                          },
+                          child: Column(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            crossAxisAlignment: CrossAxisAlignment.center,
+                            children: [
+                              SvgPicture.asset(
+                                'svg/tmp_box.svg',
+                                height: 26 * heightRatio,
+                                width: 26 * heightRatio,
+                              ),
+                              Container(height: 10 * heightRatio),
+                              Text(
+                                '쿠폰',
+                                style: TextStyle(
+                                  fontSize: 11 * heightRatio,
+                                  fontWeight: FontWeight.w300,
+                                ),
+                              ),
+                              Container(height: 3 * heightRatio),
+                              Text(
+                                '00장',
+                                style: TextStyle(
+                                  fontSize: 11 * heightRatio,
+                                  fontWeight: FontWeight.w600,
+                                ),
+                              ),
+                            ],
+                          ),
+                        ),
+                      ),
+
+                      Flexible(
+                        flex: 1,
+                        child: InkWell(
+                          onTap: () {
+                            //GoRouter.of(context).go('/map');
+                          },
+                          child: Column(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            crossAxisAlignment: CrossAxisAlignment.center,
+                            children: [
+                              SvgPicture.asset(
+                                'svg/tmp_box.svg',
+                                height: 26 * heightRatio,
+                                width: 26 * heightRatio,
+                              ),
+                              Container(height: 10 * heightRatio),
+                              Text(
+                                '포인트',
+                                style: TextStyle(
+                                  fontSize: 11 * heightRatio,
+                                  fontWeight: FontWeight.w300,
+                                ),
+                              ),
+                              Container(height: 3 * heightRatio),
+                              Text(
+                                '00000원',
+                                style: TextStyle(
+                                  fontSize: 11 * heightRatio,
+                                  fontWeight: FontWeight.w600,
+                                ),
+                              ),
+                            ],
+                          ),
                         ),
                       ),
                     ],

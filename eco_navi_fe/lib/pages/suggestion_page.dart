@@ -56,7 +56,7 @@ class _SuggestionPageState extends State<SuggestionPage> {
   @override
   Widget build(BuildContext context) {
     final Size size = MediaQuery.of(context).size;
-    final height = size.height - 20;
+    final height = size.height;
     final width = height * (402 / 874);
     final double heightRatio = height / 874;
 
@@ -89,7 +89,7 @@ class _SuggestionPageState extends State<SuggestionPage> {
     controller: sheetController,
     builder: (BuildContext context, scrollController) {
       final Size size = MediaQuery.of(context).size;
-      final height = size.height - 20;
+      final height = size.height;
       final width = height * (402 / 874);
       final double heightRatio = height / 874;
 

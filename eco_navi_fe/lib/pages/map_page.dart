@@ -1,4 +1,6 @@
+import 'package:eco_navi_fe/pages/suggestion_page.dart';
 import 'package:eco_navi_fe/views/kakao_map_view.dart';
+import 'package:eco_navi_fe/views/suggestion_list_view.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 
@@ -459,192 +461,272 @@ class _MapPageState extends State<MapPage> {
 
             SliverToBoxAdapter(
               child: Center(
-                child: Stack(
-                  children: [
-                    Container(
-                      width: 359 * heightRatio,
-                      height: 41 * heightRatio,
-                      margin: EdgeInsets.fromLTRB(0, 0, 0, 10 * heightRatio),
-                      decoration: BoxDecoration(
-                        color: Color(0xFFEFEFEF),
-                        border: Border.all(
-                          color: Color(0xFFB9B9B9),
-                          width: 1,
-                          strokeAlign: BorderSide.strokeAlignInside,
-                        ),
-                        borderRadius: BorderRadius.circular(25),
-                      ),
+                child: Container(
+                  width: width,
+                  height: 41 * heightRatio,
+                  margin: EdgeInsets.fromLTRB(
+                    25 * heightRatio,
+                    0 * heightRatio,
+                    25 * heightRatio,
+                    10 * heightRatio,
+                  ),
+                  decoration: BoxDecoration(
+                    color: Color(0xFFEFEFEF),
+                    border: Border.all(
+                      color: Color(0xFFB9B9B9),
+                      width: 1,
+                      strokeAlign: BorderSide.strokeAlignInside,
                     ),
-
-                    Positioned(
-                      left: _filterSelected % 2 == 0 ? 0 : null,
-                      right: _filterSelected % 2 == 0 ? null : 0,
-                      child: InkWell(
-                        onTap: () {
-                          setState(() {
-                            _filterSelected = (_filterSelected + 1) % 2;
-                          });
-                        },
-                        child: Container(
-                          width: 185 * heightRatio,
-                          height: 41 * heightRatio,
-                          decoration: BoxDecoration(
-                            color: Color(0xFFD9D9D9),
-                            border: Border.all(
-                              color: Color(0xFFB9B9B9),
-                              width: 1,
-                              strokeAlign: BorderSide.strokeAlignInside,
-                            ),
-                            borderRadius: BorderRadius.circular(25),
-                          ),
-                          child: Row(
-                            mainAxisAlignment: MainAxisAlignment.center,
-                            crossAxisAlignment: CrossAxisAlignment.center,
-                            children: [
-                              Image.asset(
-                                'png/filter.png',
-                                height: 20 * heightRatio,
-                                width: 20 * heightRatio,
+                    borderRadius: BorderRadius.circular(25),
+                  ),
+                  child: Stack(
+                    children: [
+                      Positioned(
+                        left: _filterSelected % 2 == 0 ? 0 : null,
+                        right: _filterSelected % 2 == 0 ? null : 0,
+                        child: InkWell(
+                          onTap: () {
+                            setState(() {
+                              _filterSelected = (_filterSelected + 1) % 2;
+                            });
+                          },
+                          child: Container(
+                            width: 185 * heightRatio,
+                            height: 41 * heightRatio,
+                            decoration: BoxDecoration(
+                              color:
+                                  _filterSelected % 2 == 0
+                                      ? Color(0xFFFF6F61)
+                                      : Color(0xFFD9D9D9),
+                              border: Border.all(
+                                color: Color(0xFFB9B9B9),
+                                width: 1,
+                                strokeAlign: BorderSide.strokeAlignInside,
                               ),
-                              Padding(
-                                padding: EdgeInsets.fromLTRB(
-                                  5 * heightRatio,
-                                  0,
-                                  0,
-                                  0,
+                              borderRadius: BorderRadius.circular(25),
+                            ),
+                            child: Row(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              crossAxisAlignment: CrossAxisAlignment.center,
+                              children: [
+                                Image.asset(
+                                  'png/filter.png',
+                                  height: 20 * heightRatio,
+                                  width: 20 * heightRatio,
                                 ),
-                                child: Text(
-                                  "필터",
-                                  style: TextStyle(
-                                    fontSize: 16 * heightRatio,
-                                    fontWeight: FontWeight.w300,
-                                    textBaseline: TextBaseline.alphabetic,
+                                Padding(
+                                  padding: EdgeInsets.fromLTRB(
+                                    5 * heightRatio,
+                                    0 * heightRatio,
+                                    0 * heightRatio,
+                                    0 * heightRatio,
+                                  ),
+                                  child: Text(
+                                    "필터 ${_filterSelected == 0 ? "ON" : "OFF"}",
+                                    style: TextStyle(
+                                      fontSize: 16 * heightRatio,
+                                      fontWeight: FontWeight.w300,
+                                      textBaseline: TextBaseline.alphabetic,
+                                    ),
                                   ),
                                 ),
-                              ),
-                            ],
+                              ],
+                            ),
                           ),
                         ),
                       ),
-                    ),
-                  ],
+                    ],
+                  ),
                 ),
               ),
             ),
 
             SliverToBoxAdapter(
               child: Center(
-                child: Stack(
-                  children: [
-                    Container(
-                      width: 359 * heightRatio,
-                      height: 41 * heightRatio,
-                      decoration: BoxDecoration(
-                        color: Color(0xFFEFEFEF),
-                        border: Border.all(
-                          color: Color(0xFFB9B9B9),
-                          width: 1,
-                          strokeAlign: BorderSide.strokeAlignInside,
-                        ),
-                        borderRadius: BorderRadius.circular(25),
-                      ),
-                    ),
-
-                    /**Positioned(
-                      //여기는 다시 구성해야 함
-                      left: _somethingSelected % 4 == 0 ? 0 : null,
-                      right: _somethingSelected % 4 == 0 ? null : 0,
-                      child: InkWell(
-                        onTap: () {
-                          setState(() {
-                            _filterSelected = _filterSelected + 1 % 4;
-                          });
-                        },
-                        child: Container(
-                          width: 185 * heightRatio,
-                          height: 41 * heightRatio,
-                          decoration: BoxDecoration(
-                            color: Color(0xFFD9D9D9),
-                            border: Border.all(
-                              color: Color(0xFFB9B9B9),
-                              width: 1,
-                              strokeAlign: BorderSide.strokeAlignInside,
+                child: Container(
+                  width: width,
+                  height: 41 * heightRatio,
+                  margin: EdgeInsets.fromLTRB(
+                    25 * heightRatio,
+                    0 * heightRatio,
+                    25 * heightRatio,
+                    10 * heightRatio,
+                  ),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      Flexible(
+                        flex: 1,
+                        child: InkWell(
+                          onTap: () {
+                            setState(() {
+                              if (_filterIndex == 1) {
+                                _filterIndex = 0;
+                              } else {
+                                _filterIndex = 1;
+                              }
+                            });
+                          },
+                          child: Container(
+                            height: 41 * heightRatio,
+                            width: 75 * heightRatio,
+                            decoration: BoxDecoration(
+                              color:
+                                  _filterIndex == 1
+                                      ? Color(0xFFFF6F61)
+                                      : Color(0xFFEFEFEF),
+                              border: Border.all(
+                                color: Color(0xFFB9B9B9),
+                                width: 1,
+                                strokeAlign: BorderSide.strokeAlignInside,
+                              ),
+                              borderRadius: BorderRadius.circular(25),
                             ),
-                            borderRadius: BorderRadius.circular(25),
-                          ),
-                          child: Row(
-                            mainAxisAlignment: MainAxisAlignment.center,
-                            crossAxisAlignment: CrossAxisAlignment.center,
-                            children: [
-                              Image.asset(
-                                'png/filter.png',
-                                height: 20 * heightRatio,
-                                width: 20 * heightRatio,
+                            alignment: Alignment.center,
+                            child: Text(
+                              "Eco Point",
+                              style: TextStyle(
+                                fontSize: 13 * heightRatio,
+                                fontWeight: FontWeight.w500,
                               ),
-                              Padding(
-                                padding: EdgeInsets.fromLTRB(
-                                  5 * heightRatio,
-                                  0,
-                                  0,
-                                  0,
-                                ),
-                                child: Text(
-                                  "필터",
-                                  style: TextStyle(
-                                    fontSize: 16 * heightRatio,
-                                    fontWeight: FontWeight.w300,
-                                    textBaseline: TextBaseline.alphabetic,
-                                  ),
-                                ),
-                              ),
-                            ],
+                            ),
                           ),
                         ),
                       ),
-                    ), 
-                    Row(
-                      children: [
-                        InkWell(
-                          onTap: () {},
+                      Flexible(
+                        flex: 1,
+                        child: InkWell(
+                          onTap: () {
+                            setState(() {
+                              if (_filterIndex == 2) {
+                                _filterIndex = 0;
+                              } else {
+                                _filterIndex = 2;
+                              }
+                            });
+                          },
                           child: Container(
-                            width: 359 * heightRatio / 4,
                             height: 41 * heightRatio,
-                            color: Color(0x00FFFFFF),
+                            width: 75 * heightRatio,
+                            decoration: BoxDecoration(
+                              color:
+                                  _filterIndex == 2
+                                      ? Color(0xFFFF6F61)
+                                      : Color(0xFFEFEFEF),
+                              border: Border.all(
+                                color: Color(0xFFB9B9B9),
+                                width: 1,
+                                strokeAlign: BorderSide.strokeAlignInside,
+                              ),
+                              borderRadius: BorderRadius.circular(25),
+                            ),
+                            alignment: Alignment.center,
+                            child: Text(
+                              "전시/공연",
+                              style: TextStyle(
+                                fontSize: 13 * heightRatio,
+                                fontWeight: FontWeight.w500,
+                              ),
+                            ),
                           ),
                         ),
-                        InkWell(
-                          onTap: () {},
+                      ),
+                      Flexible(
+                        flex: 1,
+                        child: InkWell(
+                          onTap: () {
+                            setState(() {
+                              if (_filterIndex == 3) {
+                                _filterIndex = 0;
+                              } else {
+                                _filterIndex = 3;
+                              }
+                            });
+                          },
                           child: Container(
-                            width: 359 * heightRatio / 4,
                             height: 41 * heightRatio,
-                            color: Color(0x00FFFFFF),
+                            width: 75 * heightRatio,
+                            decoration: BoxDecoration(
+                              color:
+                                  _filterIndex == 3
+                                      ? Color(0xFFFF6F61)
+                                      : Color(0xFFEFEFEF),
+                              border: Border.all(
+                                color: Color(0xFFB9B9B9),
+                                width: 1,
+                                strokeAlign: BorderSide.strokeAlignInside,
+                              ),
+                              borderRadius: BorderRadius.circular(25),
+                            ),
+                            alignment: Alignment.center,
+                            child: Text(
+                              "행사",
+                              style: TextStyle(
+                                fontSize: 13 * heightRatio,
+                                fontWeight: FontWeight.w500,
+                              ),
+                            ),
                           ),
                         ),
-                        InkWell(
-                          onTap: () {},
+                      ),
+                      Flexible(
+                        flex: 1,
+                        child: InkWell(
+                          onTap: () {
+                            setState(() {
+                              if (_filterIndex == 4) {
+                                _filterIndex = 0;
+                              } else {
+                                _filterIndex = 4;
+                              }
+                            });
+                          },
                           child: Container(
-                            width: 359 * heightRatio / 4,
                             height: 41 * heightRatio,
-                            color: Color(0x00FFFFFF),
+                            width: 75 * heightRatio,
+                            decoration: BoxDecoration(
+                              color:
+                                  _filterIndex == 4
+                                      ? Color(0xFFFF6F61)
+                                      : Color(0xFFEFEFEF),
+                              border: Border.all(
+                                color: Color(0xFFB9B9B9),
+                                width: 1,
+                                strokeAlign: BorderSide.strokeAlignInside,
+                              ),
+                              borderRadius: BorderRadius.circular(25),
+                            ),
+                            alignment: Alignment.center,
+                            child: Text(
+                              "거리",
+                              style: TextStyle(
+                                fontSize: 13 * heightRatio,
+                                fontWeight: FontWeight.w500,
+                              ),
+                            ),
                           ),
                         ),
-                        InkWell(
-                          onTap: () {},
-                          child: Container(
-                            width: 359 * heightRatio / 4,
-                            height: 41 * heightRatio,
-                            color: Color(0x00FFFFFF),
-                          ),
-                        ),
-                      ],
-                    ),*/
-                  ],
+                      ),
+                    ],
+                  ),
                 ),
               ),
             ),
-            SliverList.list(children: [
-                
-              ],
+
+            SliverList.list(
+              children: List.generate(
+                3,
+                (i) => SuggestionListView(
+                  height: 70 * heightRatio,
+                  width: width,
+                  heightRatio: heightRatio,
+                  name: "전시회",
+                  adrr: "address",
+                  date: "2025.00.00",
+                  imageSrc: "",
+                  content: "",
+                ),
+              ),
             ),
           ],
         ),

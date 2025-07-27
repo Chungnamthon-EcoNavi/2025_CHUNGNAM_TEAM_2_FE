@@ -70,7 +70,7 @@ class _SettingPageState extends State<SettingPage> {
                     15 * heightRatio,
                     43 * heightRatio,
                     15 * heightRatio,
-                    18 * heightRatio,
+                    10 * heightRatio,
                   ),
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -83,7 +83,7 @@ class _SettingPageState extends State<SettingPage> {
                           children: [
                             InkWell(
                               onTap: () {
-                                GoRouter.of(context).pop();
+                                GoRouter.of(context).pop(); //go('/profile');
                               },
                               child: Container(
                                 height: 35 * heightRatio,
@@ -114,6 +114,218 @@ class _SettingPageState extends State<SettingPage> {
                       Container(
                         height: 70 * heightRatio,
                         width: 70 * heightRatio,
+                      ),
+                    ],
+                  ),
+                ),
+
+                Container(
+                  height: 50 * heightRatio,
+                  width: width,
+                  margin: EdgeInsets.fromLTRB(
+                    15 * heightRatio,
+                    8 * heightRatio,
+                    15 * heightRatio,
+                    8 * heightRatio,
+                  ),
+                  padding: EdgeInsets.fromLTRB(
+                    10 * heightRatio,
+                    0 * heightRatio,
+                    10 * heightRatio,
+                    20 * heightRatio,
+                  ),
+                  decoration: BoxDecoration(
+                    border: Border(
+                      bottom: BorderSide(color: Color(0xFFE5E7EB), width: 1),
+                    ),
+                  ),
+                  alignment: Alignment.centerLeft,
+                  child: Text(
+                    '계정 관리',
+                    style: TextStyle(
+                      fontSize: 20 * heightRatio,
+                      fontWeight: FontWeight.w400,
+                    ),
+                  ),
+                ),
+
+                Expanded(
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      Column(
+                        children: [
+                          InkWell(
+                            onTap: () {},
+                            child: Container(
+                              height: 48 * heightRatio,
+                              width: width,
+                              margin: EdgeInsets.fromLTRB(
+                                15 * heightRatio,
+                                8 * heightRatio,
+                                15 * heightRatio,
+                                8 * heightRatio,
+                              ),
+                              padding: EdgeInsets.fromLTRB(
+                                10 * heightRatio,
+                                10 * heightRatio,
+                                10 * heightRatio,
+                                10 * heightRatio,
+                              ),
+                              decoration: BoxDecoration(
+                                color: Color(0xFFF5F5F5),
+                                borderRadius: BorderRadius.circular(8),
+                              ),
+                              child: Row(
+                                mainAxisAlignment:
+                                    MainAxisAlignment.spaceBetween,
+                                crossAxisAlignment: CrossAxisAlignment.center,
+                                children: [
+                                  Text(
+                                    "프로필 수정",
+                                    style: TextStyle(
+                                      fontSize: 16 * heightRatio,
+                                      fontWeight: FontWeight.w400,
+                                    ),
+                                  ),
+
+                                  Container(
+                                    height: 16 * heightRatio,
+                                    width: 16 * heightRatio,
+                                    child: SvgPicture.asset(
+                                      'svg/chevron-right.svg',
+                                      height: 16 * heightRatio,
+                                      width: 16 * heightRatio,
+                                      colorFilter: ColorFilter.mode(
+                                        Color(0xFF000000),
+                                        BlendMode.srcIn,
+                                      ),
+                                    ),
+                                  ),
+                                ],
+                              ),
+                            ),
+                          ),
+
+                          InkWell(
+                            onTap: () {},
+                            child: Container(
+                              height: 48 * heightRatio,
+                              width: width,
+                              margin: EdgeInsets.fromLTRB(
+                                15 * heightRatio,
+                                8 * heightRatio,
+                                15 * heightRatio,
+                                8 * heightRatio,
+                              ),
+                              padding: EdgeInsets.fromLTRB(
+                                10 * heightRatio,
+                                10 * heightRatio,
+                                10 * heightRatio,
+                                10 * heightRatio,
+                              ),
+                              decoration: BoxDecoration(
+                                color: Color(0xFFF5F5F5),
+                                borderRadius: BorderRadius.circular(8),
+                              ),
+                              child: Row(
+                                mainAxisAlignment:
+                                    MainAxisAlignment.spaceBetween,
+                                crossAxisAlignment: CrossAxisAlignment.center,
+                                children: [
+                                  Text(
+                                    "관리자 신청",
+                                    style: TextStyle(
+                                      fontSize: 16 * heightRatio,
+                                      fontWeight: FontWeight.w400,
+                                    ),
+                                  ),
+
+                                  Container(
+                                    height: 16 * heightRatio,
+                                    width: 16 * heightRatio,
+                                    child: SvgPicture.asset(
+                                      'svg/chevron-right.svg',
+                                      height: 16 * heightRatio,
+                                      width: 16 * heightRatio,
+                                      colorFilter: ColorFilter.mode(
+                                        Color(0xFF000000),
+                                        BlendMode.srcIn,
+                                      ),
+                                    ),
+                                  ),
+                                ],
+                              ),
+                            ),
+                          ),
+
+                          InkWell(
+                            onTap: () {},
+                            child: Container(
+                              height: 48 * heightRatio,
+                              width: width,
+                              margin: EdgeInsets.fromLTRB(
+                                15 * heightRatio,
+                                8 * heightRatio,
+                                15 * heightRatio,
+                                8 * heightRatio,
+                              ),
+                              padding: EdgeInsets.fromLTRB(
+                                10 * heightRatio,
+                                10 * heightRatio,
+                                10 * heightRatio,
+                                10 * heightRatio,
+                              ),
+                              decoration: BoxDecoration(
+                                color: Color(0xFFF5F5F5),
+                                borderRadius: BorderRadius.circular(8),
+                              ),
+                              child: Row(
+                                mainAxisAlignment:
+                                    MainAxisAlignment.spaceBetween,
+                                crossAxisAlignment: CrossAxisAlignment.center,
+                                children: [
+                                  Text(
+                                    "비밀번호 변경",
+                                    style: TextStyle(
+                                      fontSize: 16 * heightRatio,
+                                      fontWeight: FontWeight.w400,
+                                    ),
+                                  ),
+
+                                  Container(
+                                    height: 16 * heightRatio,
+                                    width: 16 * heightRatio,
+                                    child: SvgPicture.asset(
+                                      'svg/chevron-right.svg',
+                                      height: 16 * heightRatio,
+                                      width: 16 * heightRatio,
+                                      colorFilter: ColorFilter.mode(
+                                        Color(0xFF000000),
+                                        BlendMode.srcIn,
+                                      ),
+                                    ),
+                                  ),
+                                ],
+                              ),
+                            ),
+                          ),
+                        ],
+                      ),
+
+                      Padding(
+                        padding: EdgeInsets.all(30),
+                        child: InkWell(
+                          onTap: () {},
+                          child: Text(
+                            "로그아웃",
+                            style: TextStyle(
+                              color: Color(0xFFFF0000),
+                              fontSize: 13 * heightRatio,
+                              fontWeight: FontWeight.w400,
+                            ),
+                          ),
+                        ),
                       ),
                     ],
                   ),

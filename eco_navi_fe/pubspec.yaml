@@ -16,6 +16,8 @@ dependencies:
   geolocator: ^14.0.2
   go_router: ^16.0.0
   google_fonts: ^6.2.1
+  kakao_flutter_sdk_common: ^1.9.7+3
+  kakao_flutter_sdk_user: ^1.9.7+3
   pointer_interceptor: ^0.10.1+2
   riverpod: ^2.6.1
   riverpod_annotation: ^2.6.1

@@ -1,9 +1,11 @@
 import 'dart:ui';
 
 import 'package:eco_navi_fe/pages/home_page.dart';
+import 'package:eco_navi_fe/pages/login_page.dart';
 import 'package:eco_navi_fe/pages/map_page.dart';
 import 'package:eco_navi_fe/pages/profile_page.dart';
 import 'package:eco_navi_fe/pages/setting_page.dart';
+import 'package:eco_navi_fe/pages/sign_up_page.dart';
 import 'package:eco_navi_fe/pages/store_page.dart';
 import 'package:eco_navi_fe/pages/suggestion_page.dart';
 import 'package:eco_navi_fe/pages/image_search_page.dart';
@@ -30,6 +32,12 @@ class RootScreen extends StatelessWidget {
         name: "Splash",
         builder: (context, state) => const SplashScreen(),
       ),
+      GoRoute(
+        path: '/profile/setting',
+        builder: (context, state) => const SettingPage(),
+      ),
+      GoRoute(path: '/login', builder: (context, state) => const LoginPage()),
+      GoRoute(path: '/signup', builder: (context, state) => const SignUpPage()),
       StatefulShellRoute.indexedStack(
         parentNavigatorKey: _rootNavKey,
         builder:
@@ -91,14 +99,7 @@ class RootScreen extends StatelessWidget {
                 pageBuilder:
                     (context, state) =>
                         const NoTransitionPage(child: ProfilePage()),
-                routes: [
-                  GoRoute(
-                    path: 'setting',
-                    pageBuilder:
-                        (context, state) =>
-                            const NoTransitionPage(child: SettingPage()),
-                  ),
-                ],
+                routes: [],
               ),
             ],
           ),

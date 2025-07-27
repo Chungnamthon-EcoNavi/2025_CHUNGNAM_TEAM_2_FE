@@ -1,4 +1,5 @@
 import 'package:eco_navi_fe/screens/root_screen.dart';
+import 'package:eco_navi_fe/services/econavi_auth_service.dart';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
@@ -9,7 +10,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
-  await dotenv.load(fileName: 'config/.env');
+  await dotenv.load(fileName: '.env');
   usePathUrlStrategy();
 
   runApp(ProviderScope(child: RootScreen()));

@@ -72,8 +72,7 @@ class _SuggestionPageState extends State<SuggestionPage> {
             tag: 'suggestion',
           ),
 
-          Container(color: Color(0xA6000000)),
-
+          //Container(color: Color(0xA6000000)),
           _suggBottomSheet(size),
         ],
       ),

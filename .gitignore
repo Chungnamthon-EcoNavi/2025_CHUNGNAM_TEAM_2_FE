@@ -10,7 +10,7 @@ application-*.yml
 # Files and directories created by pub
 .dart_tool/
 .packages
-#build/
+build/
 # If you're building an application, you may want to check-in your pubspec.lock
 pubspec.lock
 
@@ -143,8 +143,8 @@ replay_pid*
 
 ### Gradle ###
 .gradle
-#**/build/
-#!src/**/build/
+**/build/
+!src/**/build/
 
 # Ignore Gradle GUI config
 gradle-app.setting

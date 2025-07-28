@@ -1,7 +1,7 @@
 // providers/auth_data_provider.dart
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:eco_navi_fe/models/authData.dart';
+import 'package:eco_navi_fe/models/auth_data.dart';
 
 class AuthDataViewModel extends ChangeNotifier {
   AuthData _authData = AuthData(memberId: '', token: '');

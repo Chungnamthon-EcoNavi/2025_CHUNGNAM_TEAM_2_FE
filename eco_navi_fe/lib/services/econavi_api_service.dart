@@ -1,6 +1,7 @@
 import 'dart:convert';
 import 'dart:js_interop';
 
+import 'package:eco_navi_fe/models/book_mark.dart';
 import 'package:eco_navi_fe/models/place.dart';
 import 'package:eco_navi_fe/services/secure_storage.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -8,7 +9,7 @@ import 'package:http/http.dart' as http;
 
 import 'package:eco_navi_fe/models/user.dart';
 import 'package:eco_navi_fe/models/point.dart';
-import 'package:eco_navi_fe/models/authData.dart';
+import 'package:eco_navi_fe/models/auth_data.dart';
 
 class AuthService {
   static Future<void> signUp({
@@ -151,10 +152,8 @@ class PlaceApiService {
       throw Exception('Place API error ${resp.statusCode}: ${resp.body}');
     }
 
-    final List<Place> decoded = jsonDecode(resp.body) as List<Place>;
-    return decoded
-        .map((e) => Place.fromJson(e as Map<String, dynamic>))
-        .toList();
+    final json = (jsonDecode(resp.body) as List?) ?? [];
+    return json.map((e) => Place.fromJson(e as Map<String, dynamic>)).toList();
   }
 
   static Future<List<Place>> getPlace({
@@ -192,5 +191,73 @@ class PlaceApiService {
       print('Error creating URL: $e');
       throw Exception('Invalid parameters for Place API');
     }
+  }
+}
+
+class BookMarkApiService {
+  static Future<List<BookMark>> getBookMarks() async {
+    final params = {'member_id': await getMemberId().toString()};
+
+    final url = Uri.https('econavi.mobidic.shop', '/bookmark/all', params);
+
+    final resp = await http.get(
+      url,
+      headers: {'Authorization': 'Bearer ${await getToken()}', 'accept': '*/*'},
+    );
+
+    if (resp.statusCode != 200) {
+      throw Exception('Bookmark API error ${resp.statusCode}: ${resp.body}');
+    }
+
+    final json = (jsonDecode(resp.body) as List?) ?? [];
+    return json
+        .map((e) => BookMark.fromJson(e as Map<String, dynamic>))
+        .toList();
+  }
+
+  static Future<void> addBookMark(int placeId) async {
+    final url = Uri.https('econavi.mobidic.shop', '/bookmark/add/$placeId');
+
+    final resp = await http.post(
+      url,
+      headers: {'Content-Type': 'application/json', 'accept': '*/*'},
+    );
+
+    if (resp.statusCode != 200) {
+      throw Exception('Bookmark API error ${resp.statusCode}: ${resp.body}');
+    }
+  }
+
+  static Future<void> deleteBookMark(int placeId) async {
+    final bookmarks = await getBookMarks();
+    late final String bookMarkId;
+    if (bookmarks.any((bookmark) => bookmark.placeId == placeId)) {
+      bookMarkId =
+          bookmarks
+              .firstWhere((bookmark) => bookmark.placeId == placeId)
+              .id
+              .toString();
+    } else {
+      return;
+    }
+
+    final url = Uri.https(
+      'econavi.mobidic.shop',
+      '/bookmark/delete/$bookMarkId',
+    );
+
+    final resp = await http.delete(
+      url,
+      headers: {'Content-Type': 'application/json', 'accept': '*/*'},
+    );
+
+    if (resp.statusCode != 200) {
+      throw Exception('Bookmark API error ${resp.statusCode}: ${resp.body}');
+    }
+  }
+
+  static Future<bool> isBookMarked(int placeId) async {
+    final bookmarks = await getBookMarks();
+    return bookmarks.any((bookmark) => bookmark.placeId == placeId);
   }
 }

@@ -1,8 +1,12 @@
+import 'package:eco_navi_fe/models/place.dart';
+import 'package:eco_navi_fe/services/econavi_api_service.dart';
+import 'package:eco_navi_fe/services/place_locator.dart';
 import 'package:eco_navi_fe/views/kakao_map_view.dart';
 import 'package:eco_navi_fe/views/suggestion_list_view.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:geolocator/geolocator.dart';
 
 class SuggestionPage extends ConsumerStatefulWidget {
   const SuggestionPage({super.key});
@@ -81,8 +85,8 @@ class _SuggestionPageState extends ConsumerState<SuggestionPage> {
   }
 
   _suggBottomSheet(Size size) => DraggableScrollableSheet(
-    initialChildSize: 0.05, // 닫힌 크기
-    minChildSize: 0.05,
+    initialChildSize: 0.04, // 닫힌 크기
+    minChildSize: 0.04,
     maxChildSize: 0.4,
     snap: true,
     snapSizes: [],
@@ -131,22 +135,60 @@ class _SuggestionPageState extends ConsumerState<SuggestionPage> {
             ),
 
             SliverList.list(
-              children: [
-                SuggestionListView(
-                  height: 70 * heightRatio,
-                  width: width,
-                  heightRatio: heightRatio,
-                  name: "전시회",
-                  adrr: "address",
-                  date: "2025.00.00",
-                  imageSrc: "",
-                  content: "",
+              children: List.generate(
+                4,
+                (i) => FutureBuilder<List<Place>>(
+                  future: getAroundPlaceResult(heightRatio: heightRatio),
+                  builder: (context, snapshot) {
+                    if (snapshot.hasData) {
+                      final places = snapshot.data!;
+                      return SuggestionListView(
+                        place: places[i],
+                        height: 70 * heightRatio,
+                        width: width,
+                        heightRatio: heightRatio,
+                        name: places[i].name ?? '-',
+                        adrr: places[i].address ?? '-',
+                        date:
+                            '${places[i].startDate.toString().substring(0, 11) ?? '-'} ~ ${places[i].endDate.toString().substring(0, 11) ?? '-'}',
+                        imageSrc: "",
+                        content: places[i].description ?? '-',
+                      );
+                    } else if (snapshot.hasError) {
+                      return Center(child: Text('Error: ${snapshot.error}'));
+                    }
+                    return Center(
+                      child: CircularProgressIndicator(
+                        strokeWidth: 10 * heightRatio,
+                      ),
+                    );
+                  },
                 ),
-              ],
+              ),
             ),
           ],
         ),
       );
     },
   );
+
+  Future<List<Place>> getAroundPlaceResult({
+    double distance = 30.0,
+    required double heightRatio,
+  }) async {
+    Position pos = await Geolocator.getCurrentPosition();
+    List<Place> data = await PlaceApiService.getPlace(
+      lat: pos.latitude,
+      lng: pos.longitude,
+      distance: distance,
+    );
+
+    PlaceLocator placeLocator = PlaceLocator(data);
+
+    return placeLocator.getNearestPlaces(
+      count: 4,
+      currentLatitude: pos.latitude,
+      currentLongitude: pos.longitude,
+    );
+  }
 }

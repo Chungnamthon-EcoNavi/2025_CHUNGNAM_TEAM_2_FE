@@ -1,4 +1,4 @@
-import 'package:eco_navi_fe/models/authData.dart';
+import 'package:eco_navi_fe/models/auth_data.dart';
 import 'package:eco_navi_fe/models/point.dart';
 
 import 'package:shared_preferences/shared_preferences.dart';

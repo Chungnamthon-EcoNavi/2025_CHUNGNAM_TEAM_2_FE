@@ -1,9 +1,12 @@
+import 'package:eco_navi_fe/models/place.dart';
+import 'package:eco_navi_fe/services/econavi_api_service.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 
 class SuggestionListView extends StatefulWidget {
   const SuggestionListView({
     super.key,
+    required this.place,
     required this.height,
     required this.width,
     required this.heightRatio,
@@ -22,6 +25,8 @@ class SuggestionListView extends StatefulWidget {
   final String date;
   final String adrr;
   final String content;
+
+  final Place place;
 
   @override
   State<SuggestionListView> createState() => _SuggestionListViewState();
@@ -74,15 +79,29 @@ class _SuggestionListViewState extends State<SuggestionListView> {
                     fontWeight: FontWeight.w500,
                   ),
                   textAlign: TextAlign.left,
+                  maxLines: 1,
+                  overflow: TextOverflow.ellipsis,
                 ),
 
                 Text(
-                  "날짜: ${widget.date}\n주소:${widget.adrr}",
+                  "날짜: ${widget.date}",
                   style: TextStyle(
                     fontSize: 10 * widget.heightRatio,
                     fontWeight: FontWeight.w400,
                   ),
                   textAlign: TextAlign.left,
+                  maxLines: 1,
+                  overflow: TextOverflow.ellipsis,
+                ),
+                Text(
+                  "주소:${widget.adrr}",
+                  style: TextStyle(
+                    fontSize: 10 * widget.heightRatio,
+                    fontWeight: FontWeight.w400,
+                  ),
+                  textAlign: TextAlign.left,
+                  maxLines: 1,
+                  overflow: TextOverflow.ellipsis,
                 ),
               ],
             ),
@@ -100,7 +119,17 @@ class _SuggestionListViewState extends State<SuggestionListView> {
                 crossAxisAlignment: CrossAxisAlignment.center,
                 children: [
                   InkWell(
-                    onTap: () {},
+                    onTap: () async {
+                      if (await BookMarkApiService.isBookMarked(
+                        widget.place.id,
+                      )) {
+                        await BookMarkApiService.deleteBookMark(
+                          widget.place.id,
+                        );
+                      } else {
+                        await BookMarkApiService.addBookMark(widget.place.id);
+                      }
+                    },
                     child: Container(
                       alignment: Alignment.center,
                       height: 24 * widget.heightRatio,

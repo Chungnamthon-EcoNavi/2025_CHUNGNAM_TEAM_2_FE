@@ -1,0 +1,9 @@
+{
+   "nav_route" : {
+        "0": "/suggestion",
+        "1": "/map",
+        "2": "/home",
+        "3": "/store",
+        "4": "/profile"
+   }
+}

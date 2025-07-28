@@ -17,8 +17,9 @@ import 'package:flutter/foundation.dart';
 
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-class RootScreen extends StatelessWidget {
+class RootScreen extends ConsumerWidget {
   RootScreen({super.key});
 
   final GlobalKey<NavigatorState> _rootNavKey = GlobalKey<NavigatorState>();
@@ -118,7 +119,7 @@ class RootScreen extends StatelessWidget {
   );
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
     final Size size = MediaQuery.of(context).size;
     return MaterialApp.router(
       routerConfig: router(),

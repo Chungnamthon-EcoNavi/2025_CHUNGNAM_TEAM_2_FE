@@ -1,20 +1,22 @@
 import 'dart:convert';
 
-import 'package:eco_navi_fe/services/econavi_auth_service.dart';
+import 'package:eco_navi_fe/services/econavi_api_service.dart';
 import 'package:eco_navi_fe/views/kakao_map_view.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:geolocator/geolocator.dart';
 import 'package:go_router/go_router.dart';
 
-class HomePage extends StatefulWidget {
+class HomePage extends ConsumerStatefulWidget {
   const HomePage({super.key});
 
   @override
-  State<HomePage> createState() => _HomePageState();
+  ConsumerState<HomePage> createState() => _HomePageState();
 }
 
-class _HomePageState extends State<HomePage> {
+class _HomePageState extends ConsumerState<HomePage> {
   late final String user;
   late final int ecoPoint;
   //Map<String, dynamic>? membershipData;
@@ -130,8 +132,9 @@ class _HomePageState extends State<HomePage> {
                   ),
                 ),
                 InkWell(
-                  onTap: () {
+                  onTap: () async {
                     GoRouter.of(context).go('/map');
+                    print(await Geolocator.getCurrentPosition());
                   },
                   child: Container(
                     height: 255 * heightRatio,

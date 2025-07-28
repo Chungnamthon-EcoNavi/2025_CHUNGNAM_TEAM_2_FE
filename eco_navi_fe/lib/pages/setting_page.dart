@@ -1,5 +1,6 @@
 import 'dart:convert';
 
+import 'package:eco_navi_fe/services/econavi_api_service.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_svg/svg.dart';
@@ -318,7 +319,9 @@ class _SettingPageState extends State<SettingPage> {
                       Padding(
                         padding: EdgeInsets.all(30),
                         child: InkWell(
-                          onTap: () {},
+                          onTap: () {
+                            GoRouter.of(context).go('/home');
+                          },
                           child: Text(
                             "로그아웃",
                             style: TextStyle(

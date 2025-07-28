@@ -1,14 +1,15 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-class StorePage extends StatefulWidget {
+class StorePage extends ConsumerStatefulWidget {
   const StorePage({super.key});
 
   @override
-  State<StorePage> createState() => _StorePageState();
+  ConsumerState<StorePage> createState() => _StorePageState();
 }
 
-class _StorePageState extends State<StorePage> {
+class _StorePageState extends ConsumerState<StorePage> {
   @override
   void initState() {
     super.initState();

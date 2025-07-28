@@ -1,19 +1,20 @@
 import 'dart:convert';
 
-import 'package:eco_navi_fe/services/econavi_auth_service.dart';
+import 'package:eco_navi_fe/services/econavi_api_service.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:go_router/go_router.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-class SignUpPage extends StatefulWidget {
+class SignUpPage extends ConsumerStatefulWidget {
   const SignUpPage({super.key});
 
   @override
-  State<SignUpPage> createState() => _SignUpPageState();
+  ConsumerState<SignUpPage> createState() => _SignUpPageState();
 }
 
-class _SignUpPageState extends State<SignUpPage> {
+class _SignUpPageState extends ConsumerState<SignUpPage> {
   final _formKeyNM = GlobalKey<FormState>();
   final FocusNode _nodeNM = FocusNode();
   late String _textValNM;
@@ -359,17 +360,16 @@ class _SignUpPageState extends State<SignUpPage> {
 
               if (isNmInput && isPwInput && isEmailValidate) {
                 try {
-                  EconaviAuthService.signUp(
+                  AuthService.signUp(
                     username: _textValID,
                     name: _textValNM,
                     role: "USER",
                     password: _textValPW,
                   );
+                  GoRouter.of(context).go('/home');
                 } catch (e) {
                   print(e);
                 }
-
-                GoRouter.of(context).go('/home');
               }
             },
             child: Container(

@@ -38,27 +38,27 @@ flutter:
   fonts:
     - family: Pretendard
       fonts:
-        - asset: assets/fonts/Pretendard/Pretendard-Thin.woff
+        - asset: fonts/Pretendard/Pretendard-Thin.woff
           weight: 100
-        - asset: assets/fonts/Pretendard/Pretendard-ExtraLight.woff
+        - asset: fonts/Pretendard/Pretendard-ExtraLight.woff
           weight: 200
-        - asset: assets/fonts/Pretendard/Pretendard-Light.woff
+        - asset: fonts/Pretendard/Pretendard-Light.woff
           weight: 300
-        - asset: assets/fonts/Pretendard/Pretendard-Regular.woff
+        - asset: fonts/Pretendard/Pretendard-Regular.woff
           weight: 400
-        - asset: assets/fonts/Pretendard/Pretendard-Medium.woff
+        - asset: fonts/Pretendard/Pretendard-Medium.woff
           weight: 500
-        - asset: assets/fonts/Pretendard/Pretendard-SemiBold.woff
+        - asset: fonts/Pretendard/Pretendard-SemiBold.woff
           weight: 600
-        - asset: assets/fonts/Pretendard/Pretendard-Bold.woff
+        - asset: fonts/Pretendard/Pretendard-Bold.woff
           weight: 700
-        - asset: assets/fonts/Pretendard/Pretendard-ExtraBold.woff
+        - asset: fonts/Pretendard/Pretendard-ExtraBold.woff
           weight: 800
-        - asset: assets/fonts/Pretendard/Pretendard-Black.woff
+        - asset: fonts/Pretendard/Pretendard-Black.woff
           weight: 900
   
   assets:
     - .env
-    - assets/config/
-    - assets/svg/
-    - assets/png/
+    - config/
+    - svg/
+    - png/

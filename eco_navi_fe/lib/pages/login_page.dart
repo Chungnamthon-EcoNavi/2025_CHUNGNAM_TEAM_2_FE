@@ -1,21 +1,26 @@
 import 'dart:convert';
 
-import 'package:eco_navi_fe/services/econavi_auth_service.dart';
+import 'package:eco_navi_fe/models/user.dart';
+import 'package:eco_navi_fe/services/econavi_api_service.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:go_router/go_router.dart';
 
-class LoginPage extends StatefulWidget {
+class LoginPage extends ConsumerStatefulWidget {
   const LoginPage({super.key});
 
   @override
-  State<LoginPage> createState() => _LoginPageState();
+  ConsumerState<LoginPage> createState() => _LoginPageState();
 }
 
-class _LoginPageState extends State<LoginPage> {
+class _LoginPageState extends ConsumerState<LoginPage> {
   final _formKeyID = GlobalKey<FormState>();
   final _formKeyPW = GlobalKey<FormState>();
+
+  final _emailController = TextEditingController();
+  final _passwordController = TextEditingController();
 
   final FocusNode _nodeID = FocusNode();
   final FocusNode _nodePW = FocusNode();
@@ -32,6 +37,8 @@ class _LoginPageState extends State<LoginPage> {
 
   @override
   void dispose() {
+    _emailController.dispose();
+    _passwordController.dispose();
     super.dispose();
   }
 
@@ -59,6 +66,7 @@ class _LoginPageState extends State<LoginPage> {
 
     final bool focusedID = _nodeID.hasFocus;
     final bool focusedPW = _nodePW.hasFocus;
+
     return Container(
       color: Colors.white,
       child: Column(
@@ -271,21 +279,11 @@ class _LoginPageState extends State<LoginPage> {
           ),
 
           InkWell(
-            onTap: () {
+            onTap: () async {
               final isEmailValidate = _formKeyID.currentState!.validate();
               final isPwInput = _textValPW.isNotEmpty;
 
-              if (isPwInput && isEmailValidate) {
-                try {
-                  EconaviAuthService.logIn(
-                    username: _textValID,
-                    password: _textValPW,
-                  );
-                } catch (e) {
-                  print(e);
-                }
-                GoRouter.of(context).go('/home');
-              }
+              AuthService.logIn(username: _textValID, password: _textValPW);
             },
             child: Container(
               margin: EdgeInsets.fromLTRB(

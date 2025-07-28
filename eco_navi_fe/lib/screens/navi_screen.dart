@@ -2,13 +2,14 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:go_router/go_router.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-class NaviScreen extends StatefulWidget {
+class NaviScreen extends ConsumerStatefulWidget {
   final StatefulNavigationShell navigationShell;
   const NaviScreen({super.key, required this.navigationShell});
 
   @override
-  State<NaviScreen> createState() => _NaviScreenState();
+  ConsumerState<NaviScreen> createState() => _NaviScreenState();
 }
 
 const Map<int, String> NAV_INDEX_ENDPOINT_MAPPER = {
@@ -19,7 +20,7 @@ const Map<int, String> NAV_INDEX_ENDPOINT_MAPPER = {
   4: '/profile',
 }; //page_routing_table.json을 생성하긴했지만, 효율적인 방법인지는 잘 모르겠어서 보류.
 
-class _NaviScreenState extends State<NaviScreen> {
+class _NaviScreenState extends ConsumerState<NaviScreen> {
   int currentIndex = 2;
 
   void onTapBottomNavigation(int index) {

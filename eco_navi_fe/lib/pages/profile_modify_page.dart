@@ -6,15 +6,16 @@ import 'package:flutter/services.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:go_router/go_router.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-class ProfileModifyPage extends StatefulWidget {
+class ProfileModifyPage extends ConsumerStatefulWidget {
   const ProfileModifyPage({super.key});
 
   @override
-  State<ProfileModifyPage> createState() => _ProfileModifyPageState();
+  ConsumerState<ProfileModifyPage> createState() => _ProfileModifyPageState();
 }
 
-class _ProfileModifyPageState extends State<ProfileModifyPage> {
+class _ProfileModifyPageState extends ConsumerState<ProfileModifyPage> {
   late final String? existingProfileImageUrl;
   late final String? existingBackgroundImageUrl;
 
@@ -250,7 +251,9 @@ class _ProfileModifyPageState extends State<ProfileModifyPage> {
                       Padding(
                         padding: EdgeInsets.all(30),
                         child: InkWell(
-                          onTap: () {},
+                          onTap: () async {
+                            GoRouter.of(context).go('/home');
+                          },
                           child: Text(
                             "로그아웃",
                             style: TextStyle(

@@ -1,19 +1,27 @@
+import 'package:eco_navi_fe/models/place.dart';
 import 'package:eco_navi_fe/pages/suggestion_page.dart';
+import 'package:eco_navi_fe/services/econavi_api_service.dart';
 import 'package:eco_navi_fe/views/kakao_map_view.dart';
 import 'package:eco_navi_fe/views/suggestion_list_view.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:geolocator/geolocator.dart';
 
-class MapPage extends StatefulWidget {
+class MapPage extends ConsumerStatefulWidget {
   const MapPage({super.key});
 
   @override
-  State<MapPage> createState() => _MapPageState();
+  ConsumerState<MapPage> createState() => _MapPageState();
 }
 
-class _MapPageState extends State<MapPage> {
+class _MapPageState extends ConsumerState<MapPage> {
   final _formKey1 = GlobalKey<FormState>();
   KakaoMapController? _controller;
+
+  List<Place> places = List.empty(growable: true);
+  bool _isMarkerSelected = false;
+  Map<String, dynamic>? _selectedinfo;
 
   final DraggableScrollableController sheetController =
       DraggableScrollableController();
@@ -64,6 +72,7 @@ class _MapPageState extends State<MapPage> {
           tag: 'Map',
           onMapReady: (controller) {
             setState(() => _controller = controller);
+            getAroundPlaceResult(heightRatio: heightRatio, distance: 100.0);
             /**controller.addMarker(
                 controller.getCenter().$1,
                 controller.getCenter().$2,
@@ -170,15 +179,12 @@ class _MapPageState extends State<MapPage> {
                         ),
                         cursorColor: Colors.black,
                         cursorHeight: 18 * heightRatio,
-
-                        onChanged:
-                            (value) => setState(() {
-                              _textVal = value;
-                            }),
-
-                        onSaved: (newValue) {
-                          _textVal = newValue!;
-                          //검색 이벤트 발생
+                        onFieldSubmitted: (value) {
+                          print(value);
+                          getSearchPlaceResult(
+                            keyword: value,
+                            heightRatio: heightRatio,
+                          );
                         },
                       ),
                     ),
@@ -733,4 +739,82 @@ class _MapPageState extends State<MapPage> {
       );
     },
   );
+
+  void getAroundPlaceResult({
+    double distance = 1.0,
+    required double heightRatio,
+  }) async {
+    Position pos = await Geolocator.getCurrentPosition();
+    List<Place> data = await PlaceApiService.getPlace(
+      lat: pos.latitude,
+      lng: pos.longitude,
+      distance: distance,
+    );
+    setState(() {
+      places
+        ..clear()
+        ..addAll(data);
+    });
+
+    _controller?.clearMarkers();
+    for (Place e in places) {
+      //print(e.name);
+
+      _controller?.addMarker(
+        e.latitude,
+        e.longitude,
+        e.toJson(),
+        26 * heightRatio,
+        26 * heightRatio,
+      );
+    }
+  }
+
+  void getSearchPlaceResult({
+    required String keyword,
+    required double heightRatio,
+  }) async {
+    List<Place> data = await PlaceApiService.keywordSearch(keyword: keyword);
+    setState(() {
+      places
+        ..clear()
+        ..addAll(data);
+    });
+
+    _controller?.clearMarkers();
+    for (Place e in places) {
+      //print(e.name);
+
+      _controller?.addMarker(
+        e.latitude,
+        e.longitude,
+        e.toJson(),
+        26 * heightRatio,
+        26 * heightRatio,
+      );
+    }
+  }
+}
+
+class PlaceInfo extends StatefulWidget {
+  final Map<String, dynamic>? info;
+  bool isSelected = false;
+  PlaceInfo(this.info, {super.key, required this.isSelected});
+
+  @override
+  State<PlaceInfo> createState() => _PlaceInfoState();
+}
+
+class _PlaceInfoState extends State<PlaceInfo> {
+  @override
+  Widget build(BuildContext context) {
+    return Visibility(
+      visible: widget.isSelected,
+      child: Container(
+        alignment: Alignment.bottomCenter,
+        height: MediaQuery.of(context).size.height,
+        width: MediaQuery.of(context).size.width,
+      ),
+    );
+  }
 }

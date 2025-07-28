@@ -1,21 +1,24 @@
 import 'dart:async';
 import 'dart:ui';
 
+import 'package:eco_navi_fe/services/secure_storage.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:go_router/go_router.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-class SplashScreen extends StatefulWidget {
+class SplashScreen extends ConsumerStatefulWidget {
   const SplashScreen({super.key});
 
   @override
-  State<SplashScreen> createState() => _SplashScreenState();
+  ConsumerState<SplashScreen> createState() => _SplashScreenState();
 }
 
-class _SplashScreenState extends State<SplashScreen> {
+class _SplashScreenState extends ConsumerState<SplashScreen> {
   @override
   void initState() {
-    Timer(Duration(milliseconds: 0), () {
+    super.initState();
+    Timer(Duration(milliseconds: 1000), () {
       GoRouter.of(context).go('/home');
     });
   }

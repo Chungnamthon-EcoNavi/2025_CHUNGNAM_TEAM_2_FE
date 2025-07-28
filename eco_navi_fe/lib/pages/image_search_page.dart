@@ -1,13 +1,14 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-class ImageSearchPage extends StatefulWidget {
+class ImageSearchPage extends ConsumerStatefulWidget {
   const ImageSearchPage({super.key});
 
   @override
-  State<ImageSearchPage> createState() => _ImageSearchPageState();
+  ConsumerState<ImageSearchPage> createState() => _ImageSearchPageState();
 }
 
-class _ImageSearchPageState extends State<ImageSearchPage> {
+class _ImageSearchPageState extends ConsumerState<ImageSearchPage> {
   @override
   void initState() {
     super.initState();

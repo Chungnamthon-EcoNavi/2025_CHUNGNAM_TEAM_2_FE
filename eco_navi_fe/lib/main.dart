@@ -1,5 +1,5 @@
 import 'package:eco_navi_fe/screens/root_screen.dart';
-import 'package:eco_navi_fe/services/econavi_auth_service.dart';
+import 'package:eco_navi_fe/services/econavi_api_service.dart';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';

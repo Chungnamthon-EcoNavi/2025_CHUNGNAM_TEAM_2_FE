@@ -2,15 +2,16 @@ import 'package:eco_navi_fe/views/kakao_map_view.dart';
 import 'package:eco_navi_fe/views/suggestion_list_view.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-class SuggestionPage extends StatefulWidget {
+class SuggestionPage extends ConsumerStatefulWidget {
   const SuggestionPage({super.key});
 
   @override
-  State<SuggestionPage> createState() => _SuggestionPageState();
+  ConsumerState<SuggestionPage> createState() => _SuggestionPageState();
 }
 
-class _SuggestionPageState extends State<SuggestionPage> {
+class _SuggestionPageState extends ConsumerState<SuggestionPage> {
   final DraggableScrollableController sheetController =
       DraggableScrollableController();
 
